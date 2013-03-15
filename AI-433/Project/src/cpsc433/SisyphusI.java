@@ -21,18 +21,18 @@ import java.io.PrintStream;
 public class SisyphusI {
 
 	/**
+     *
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
-		//final Environment env = Environment.get();
+        Environment enviro =  enviro = new Environment("Main");
 		//Solution.verbosity = Solution.Verbosity.SUMMARY;
 
 		String fromFile = null;
 
 		if (args.length>0) {
 			fromFile = args[0];
-			//env.fromFile(fromFile);
+			enviro.fromFile(fromFile);
         }
 		else {
 			System.out.println("Synopsis: SisyphusI <env-file> [<solution-file>|<time-in-ms>]");

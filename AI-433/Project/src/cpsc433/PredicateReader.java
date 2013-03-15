@@ -52,6 +52,7 @@ public class PredicateReader extends Entity {
 	public PredicateReader(String name) {
 		super(name);
 	}
+
 	
 	/**
 	 * Copy constructor.

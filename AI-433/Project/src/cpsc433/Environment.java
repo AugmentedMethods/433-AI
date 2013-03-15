@@ -1,5 +1,7 @@
 package cpsc433;
 
+import com.sun.xml.internal.stream.XMLEventReaderImpl;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Sean
@@ -7,5 +9,11 @@ package cpsc433;
  * Time: 7:28 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Environment {
+public class Environment extends PredicateReader {
+
+    //umm not really sure what im doing here, little rusty on inheritance
+    public Environment (String name){
+        super(name);
+    }
+
 }
