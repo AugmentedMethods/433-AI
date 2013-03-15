@@ -33,7 +33,7 @@ public class SisyphusI {
 		if (args.length>0) {
 			fromFile = args[0];
 			//env.fromFile(fromFile);
-		}
+        }
 		else {
 			System.out.println("Synopsis: SisyphusI <env-file> [<solution-file>|<time-in-ms>]");
 		}

@@ -1,4 +1,3 @@
-
 // the YQT group staff descriptions
 researcher(Werner)
 group(Werner, YQT)
