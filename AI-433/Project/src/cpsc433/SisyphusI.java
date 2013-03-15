@@ -29,7 +29,7 @@ public class SisyphusI {
 		//Solution.verbosity = Solution.Verbosity.SUMMARY;
 
 		String fromFile = null;
-
+        System.out.println("Here:");
 		if (args.length>0) {
 			fromFile = args[0];
 			enviro.fromFile(fromFile);
