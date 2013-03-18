@@ -9,11 +9,11 @@ import java.util.Map;
  * Implements a simple key/value pair which supports the {@link java.lang.Comparable}
  * contract and the {@link java.util.Map.Entry} contract.
  *
- * <p>Copyright: Copyright (c) 2005-2006, Department of Computer Science, University 
- * of Calgary.  Permission to use, copy, modify, distribute and sell this 
- * software and its documentation for any purpose is hereby granted without 
+ * <p>Copyright: Copyright (c) 2005-2006, Department of Computer Science, University
+ * of Calgary.  Permission to use, copy, modify, distribute and sell this
+ * software and its documentation for any purpose is hereby granted without
  * fee, provided that the above copyright notice appear in all copies and that
- * both that copyright notice and this permission notice appear in supporting 
+ * both that copyright notice and this permission notice appear in supporting
  * documentation.  The Department of Computer Science makes no representations
  * about the suitability of this software for any purpose.  It is provided
  * "as is" without express or implied warranty.</p>
@@ -86,10 +86,10 @@ public class Pair<K, V> implements Map.Entry<K,V>, Comparable {
 
     /**
      * Attempts to compare to objects: if the first is {@link Comparable} then
-     * call it's {@link Comparable#compareTo(Object)} method, call 
-     * {@link Comparable#compareTo(Object)} on it's 
+     * call it's {@link Comparable#compareTo(Object)} method, call
+     * {@link Comparable#compareTo(Object)} on it's
      * {@link String#compareTo(java.lang.String)} with tthe other object's
-     * <code>toString()</code> version. 
+     * <code>toString()</code> version.
      * @param x the object to compare with y
      * @param y the object to be campared
      * @return return -1 if x&lt;y; 0 if x=y; +1 if x&gt;y
