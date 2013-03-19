@@ -1,6 +1,7 @@
 package cpsc433;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -14,6 +15,7 @@ import java.util.Vector;
 public class Environment extends PredicateReader implements SisyphusPredicates{
 
     Vector<String> vec = new Vector<String>();
+    ArrayList<Person> PersonList = new ArrayList<Person>();
 
     //umm not really sure what im doing here, little rusty on inheritance
     public Environment (String name){
@@ -25,8 +27,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_person(String p)
     {
-        if(!vec.contains("person("+p+")")){
-            vec.add("person("+p+")");  	}
+        //if(!vec.contains("person("+p+")")){
+        //    vec.add("person("+p+")");  	}
+
+        Person newPerson = new Person();
+        newPerson.setName(p);
+        PersonList.add(newPerson);
+
     }
     public boolean e_person(String p)
     {
@@ -35,8 +42,22 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_secretary(String p)
     {
-        a_person(p);
-        vec.add("secretary("+p+")");
+        //a_person(p);
+        //vec.add("secretary("+p+")");
+        Person temp = null;
+        findPerson(p,temp);
+        if(temp==null)
+        {
+            Person newPerson = new Person();
+            newPerson.setName(p);
+            newPerson.setPosition("secretary");
+            PersonList.add(newPerson);
+        }
+        else
+        {
+            temp.setPosition("secretary");
+        }
+
 
     }
     public boolean e_secretary(String p)
@@ -47,8 +68,22 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_researcher(String p)
     {
-        a_person(p);
-        vec.add("researcher("+p+")");
+        //a_person(p);
+        //vec.add("researcher("+p+")");
+        Person temp = null;
+        findPerson(p,temp);
+        if(temp==null)
+        {
+            Person newPerson = new Person();
+            newPerson.setName(p);
+            newPerson.setPosition("researcher");
+            PersonList.add(newPerson);
+        }
+        else
+        {
+            temp.setPosition("researcher");
+        }
+
     }
     public boolean e_researcher(String p)
     {
@@ -58,8 +93,22 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_manager(String p)
     {
-        a_person(p);
-        vec.add("manager("+p+")");
+        //a_person(p);
+        //vec.add("manager("+p+")");
+
+        Person temp = null;
+        findPerson(p,temp);
+        if(temp==null)
+        {
+            Person newPerson = new Person();
+            newPerson.setName(p);
+            newPerson.setPosition("manager");
+            PersonList.add(newPerson);
+        }
+        else
+        {
+            temp.setPosition("manager");
+        }
     }
     public boolean e_manager(String p)
     {
@@ -69,8 +118,22 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_smoker(String p)
     {
-        a_person(p);
-        vec.add("smoker("+p+")");
+        //a_person(p);
+        //vec.add("smoker("+p+")");
+
+        Person temp = null;
+        findPerson(p,temp);
+        if(temp==null)
+        {
+            Person newPerson = new Person();
+            newPerson.setName(p);
+            newPerson.setPosition("manager");
+            PersonList.add(newPerson);
+        }
+        else
+        {
+            temp.setPosition("manager");
+        }
     }
     public boolean e_smoker(String p)
     {
@@ -79,8 +142,22 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_hacker(String p)
     {
-        a_person(p);
-        vec.add("hacker("+p+")");
+        //a_person(p);
+        //vec.add("hacker("+p+")");
+        Person temp = null;
+        findPerson(p,temp);
+        if(temp==null)
+        {
+            Person newPerson = new Person();
+            newPerson.setName(p);
+            newPerson.setPosition("hacker");
+            PersonList.add(newPerson);
+        }
+        else
+        {
+            temp.setPosition("hacker");
+        }
+
     }
     public boolean e_hacker(String p)
     {
@@ -89,7 +166,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_in_group(String p, String grp)
     {
-        vec.add("group("+p+","+grp+")");
+        Person temp = null;
+        findPerson(p,temp);
+        if(temp==null)
+        {
+            Person newPerson = new Person();
+            newPerson.setName(p);
+            newPerson.setGroup(grp);
+            PersonList.add(newPerson);
+        }
+        else
+        {
+            temp.setGroup(grp);
+        }
     }
     public boolean e_in_group(String p, String grp)
     {
@@ -264,5 +353,21 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
             file.println(s);
     }
 
+    /**
+     * Will check to see if that person already has a person entry
+     * @param person persons name, and a blank person
+     */
+    private void findPerson(String person, Person foundPerson)
+    {
+        for(Person p : PersonList)
+        {
+            if(p.getName().equals(p))
+            {
+               foundPerson = p;
+               return ;
+            }
+        }
+        foundPerson = null;
+    }
 }
 
