@@ -395,8 +395,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     {
         for (String s: vec)
             file.println(s);
-
-
         for (Person s: PersonList)
         {
             System.out.println(s.getName());
@@ -431,24 +429,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     {
         for(Person p : PersonList)
         {
-            if(stringCmp(person, p.getName()))
-            {
+            if(person.equals(p.getName()))
                return p;
-            }
         }
        return null;
-    }
-
-    private boolean stringCmp(String s1, String s2 )
-    {
-        if(s1.length() != s2.length())
-            return false;
-        for(int i =0; i < s1.length(); i++)
-        {
-            if(s1.charAt(i)!=s2.charAt(i))
-                return false;
-        }
-        return true;
     }
 }
 
