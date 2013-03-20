@@ -28,7 +28,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     {
         //if(!vec.contains("person("+p+")")){
         //    vec.add("person("+p+")");  	}
-
         Person newPerson = new Person();
         newPerson.setName(p);
         PersonList.add(newPerson);
@@ -43,8 +42,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     {
         //a_person(p);
         //vec.add("secretary("+p+")");
-        Person temp = null;
-        findPerson(p,temp);
+        Person temp = findPerson(p);
+
         if(temp==null)
         {
             Person newPerson = new Person();
@@ -69,8 +68,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     {
         //a_person(p);
         //vec.add("researcher("+p+")");
-        Person temp = null;
-        findPerson(p,temp);
+        Person temp = findPerson(p);
         if(temp==null)
         {
             Person newPerson = new Person();
@@ -92,11 +90,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_manager(String p)
     {
-        //a_person(p);
-        //vec.add("manager("+p+")");
-
-        Person temp = null;
-        findPerson(p,temp);
+        Person temp = findPerson(p);
         if(temp==null)
         {
             Person newPerson = new Person();
@@ -119,9 +113,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     {
         //a_person(p);
         //vec.add("smoker("+p+")");
-
-        Person temp = null;
-        findPerson(p,temp);
+        Person temp = findPerson(p);
         if(temp==null)
         {
             Person newPerson = new Person();
@@ -143,8 +135,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     {
         //a_person(p);
         //vec.add("hacker("+p+")");
-        Person temp = null;
-        findPerson(p,temp);
+        Person temp = findPerson(p);
         if(temp==null)
         {
             Person newPerson = new Person();
@@ -156,7 +147,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
         {
             temp.setPosition("hacker");
         }
-
     }
     public boolean e_hacker(String p)
     {
@@ -165,8 +155,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_in_group(String p, String grp)
     {
-        Person temp = null;
-        findPerson(p,temp);
+        Person temp = findPerson(p);
+
         if(temp==null)
         {
             Person newPerson = new Person();
@@ -242,7 +232,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
      */
     public void a_works_with(String p, TreeSet<Pair<Predicate.ParamType,Object>> p2s)
     {
-        Person temp = null;
+        Person temp = findPerson(p);
         Person temp2=null;
         //templist is used to object creation in a loop
         ArrayList <Person> tempList = new ArrayList<Person>();
@@ -250,7 +240,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
         //checks to see if the origional person already has an entry in the list,
         //if they do then temp will have that entry, otherwise it will have null
-        findPerson(p,temp);
         if(temp == null)
         {
             Person newPerson = new Person(p); //create a new person and add the works with
@@ -258,9 +247,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
             //This will just iterated through the tuple
             for(Pair<Predicate.ParamType,Object> per : p2s)
             {
-                temp2 = null;
+                temp2 = findPerson(per.getValue().toString());
                 //Will check to see if the works with person already has an entry in the person list
-                findPerson(per.getValue().toString(),temp2);
                 if(temp2 == null)
                 {
                     //creates a new person for every element in the works with tuple
@@ -278,8 +266,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
         {
             for(Pair<Predicate.ParamType,Object> per : p2s)
             {
-                temp2=null;
-                findPerson(per.getValue().toString(),temp2);
+                temp2=findPerson(per.getValue().toString());
                 if(temp2 == null)
                 {
                     tempList.add(new Person(per.getValue().toString()));   //creates a new person
@@ -408,6 +395,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     {
         for (String s: vec)
             file.println(s);
+
+
+        for (Person s: PersonList)
+        {
+            System.out.println(s.getName());
+            //System.out.println(s.getPosition());
+        }
 //        for (Person s: PersonList)
 //        {
 //            if(s.getWorksWith().size()>0)
@@ -420,21 +414,43 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 //        }
     }
 
+    public void print()
+    {
+        for (Person s: PersonList)
+        {
+            System.out.println(s.getName());
+            //System.out.println(s.getPosition());
+        }
+    }
+
     /**
      * Will check to see if that person already has a person entry
      * @param person persons name, and a blank person
      */
-    private void findPerson(String person, Person foundPerson)
+    private Person findPerson(String person)
     {
         for(Person p : PersonList)
         {
-            if(p.getName().equals(p))
+            if(stringCmp(person, p.getName()))
             {
-               foundPerson = p;
-               return ;
+               return p;
             }
         }
-        foundPerson = null;
+       return null;
+    }
+
+    private boolean stringCmp(String s1, String s2 )
+    {
+        if(s1.length() != s2.length())
+            return false;
+        for(int i =0; i < s1.length(); i++)
+        {
+            if(s1.charAt(i)!=s2.charAt(i))
+                return false;
+        }
+        return true;
     }
 }
+
+
 
