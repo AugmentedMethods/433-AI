@@ -6,16 +6,15 @@ import java.util.TreeSet;
 import java.util.Vector;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Sean
- * Date: 3/14/13
- * Time: 7:28 PM
- * To change this template use File | Settings | File Templates.
+ * Author: Sean
+ * We really should make this as a hash table, would make a huge difference,
+ * Just don't have time right now.
  */
 public class Environment extends PredicateReader implements SisyphusPredicates{
 
     Vector<String> vec = new Vector<String>();
     ArrayList<Person> PersonList = new ArrayList<Person>();
+
 
     //umm not really sure what im doing here, little rusty on inheritance
     public Environment (String name){
@@ -231,8 +230,66 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
         return false;
     }
 
+    /**
+     * This will add everyone that a person works with to that persons
+     * object
+     * works_with(Sean,{andrew,adam})
+     * p = Sean
+     *  tempList.add(new Person(per.getValue().toString())) will make an object
+     *  for both andrew and adam
+     * @param p persons name
+     * @param p2s tuple containing all the works with employees
+     */
     public void a_works_with(String p, TreeSet<Pair<Predicate.ParamType,Object>> p2s)
     {
+        Person temp = null;
+        Person temp2=null;
+        //templist is used to object creation in a loop
+        ArrayList <Person> tempList = new ArrayList<Person>();
+        int counter =0; //keep track of to current object
+
+        //checks to see if the origional person already has an entry in the list,
+        //if they do then temp will have that entry, otherwise it will have null
+        findPerson(p,temp);
+        if(temp == null)
+        {
+            Person newPerson = new Person(p); //create a new person and add the works with
+            //details
+            //This will just iterated through the tuple
+            for(Pair<Predicate.ParamType,Object> per : p2s)
+            {
+                temp2 = null;
+                //Will check to see if the works with person already has an entry in the person list
+                findPerson(per.getValue().toString(),temp2);
+                if(temp2 == null)
+                {
+                    //creates a new person for every element in the works with tuple
+                    tempList.add(new Person(per.getValue().toString()));
+                    //add the new works with person to the origionally created new person
+                    newPerson.addToWorksWith(tempList.get(counter));
+                    counter++;
+                }
+                else //If the person in the works with tuple was found, add them to the newPersons structure
+                    newPerson.addToWorksWith(temp2);
+            }
+            PersonList.add(newPerson);
+        }
+        else //The person was found
+        {
+            for(Pair<Predicate.ParamType,Object> per : p2s)
+            {
+                temp2=null;
+                findPerson(per.getValue().toString(),temp2);
+                if(temp2 == null)
+                {
+                    tempList.add(new Person(per.getValue().toString()));   //creates a new person
+                    temp.addToWorksWith(tempList.get(counter));
+                    counter++;
+                }
+                else
+                    temp.addToWorksWith(temp2);
+            }
+        }
     }
     public boolean e_works_with(String p, TreeSet<Pair<Predicate.ParamType,Object>> p2s)
     {
@@ -351,6 +408,16 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     {
         for (String s: vec)
             file.println(s);
+//        for (Person s: PersonList)
+//        {
+//            if(s.getWorksWith().size()>0)
+//            {
+//                for(Person ww : s.getWorksWith())
+//                {
+//                    System.out.println(ww.getName());
+//                }
+//            }
+//        }
     }
 
     /**

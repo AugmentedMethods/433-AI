@@ -13,8 +13,37 @@ public class Person {
     private String name;
     private boolean smoker;
     private Rooms currentRoom;
-    private String position;    //hacker, secretary ect.
+    private String position;
     private boolean sharesRoom;
+    private ArrayList<Person> worksWith;
+
+    public Person()
+    {
+        worksWith = new ArrayList<Person>();
+        name ="";
+        smoker = false;
+        currentRoom = null;
+        position = "";
+        sharesRoom =false;
+    }
+
+    public Person (String name)
+    {
+        this.name = name;
+        worksWith = new ArrayList<Person>();
+        smoker = false;
+        currentRoom = null;
+        position = "";
+        sharesRoom =false;
+    }
+
+    public ArrayList<Person> getWorksWith() {
+        return worksWith;
+    }
+
+    public void addToWorksWith(Person per) {
+        worksWith.add(per);
+    }
 
     public String getGroup() {
         return group;
@@ -25,7 +54,6 @@ public class Person {
     }
 
     private String group;
-
 
     public String getName() {
         return name;
