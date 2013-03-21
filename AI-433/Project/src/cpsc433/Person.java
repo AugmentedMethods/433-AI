@@ -15,6 +15,13 @@ public class Person {
     private Rooms currentRoom;
     private String position;
     private boolean sharesRoom;
+    private boolean headsGroup;
+
+
+    private boolean headsProject;
+
+
+    private String project;
     private ArrayList<Person> worksWith;
 
     public Person()
@@ -25,6 +32,8 @@ public class Person {
         currentRoom = null;
         position = "";
         sharesRoom =false;
+        headsGroup = false;
+        headsProject = false;
     }
 
     public Person (String name)
@@ -35,6 +44,33 @@ public class Person {
         currentRoom = null;
         position = "";
         sharesRoom =false;
+        headsGroup = false;
+        headsProject = false;
+    }
+
+    public boolean isHeadsProject() {
+        return headsProject;
+    }
+
+    public void setHeadsProject(boolean headsProject) {
+        this.headsProject = headsProject;
+    }
+
+
+    public boolean isHeadsGroup() {
+        return headsGroup;
+    }
+
+    public void setHeadsGroup(boolean headsGroup) {
+        this.headsGroup = headsGroup;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
     }
 
     public ArrayList<Person> getWorksWith() {

@@ -162,11 +162,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
             Person newPerson = new Person();
             newPerson.setName(p);
             newPerson.setGroup(grp);
+            newPerson.setHeadsGroup(false);
             PersonList.add(newPerson);
         }
         else
         {
             temp.setGroup(grp);
+            temp.setHeadsGroup(false);
         }
     }
     public boolean e_in_group(String p, String grp)
@@ -176,7 +178,21 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_group(String p, String grp)
     {
-        vec.add("group("+p+","+grp+")");
+        Person temp = findPerson(p);
+
+        if(temp==null)
+        {
+            Person newPerson = new Person();
+            newPerson.setName(p);
+            newPerson.setGroup(grp);
+            newPerson.setHeadsGroup(false);
+            PersonList.add(newPerson);
+        }
+        else
+        {
+            temp.setGroup(grp);
+            temp.setHeadsGroup(false);
+        }
     }
     public boolean e_group(String p, String grp)
     {
@@ -186,7 +202,21 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_in_project(String p, String prj)
     {
-        vec.add("project("+p+","+prj+")");
+        Person temp = findPerson(p);
+
+        if(temp==null)
+        {
+            Person newPerson = new Person();
+            newPerson.setName(p);
+            newPerson.setProject(prj);
+            newPerson.setHeadsProject(false);
+            PersonList.add(newPerson);
+        }
+        else
+        {
+            temp.setHeadsProject(false);
+            temp.setProject(prj);
+        }
     }
 
     public boolean e_in_project(String p, String prj)
@@ -195,7 +225,22 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     }
     public void a_project(String p, String prj)
     {
-        vec.add("project("+p+","+prj+")");
+        //vec.add("project("+p+","+prj+")");
+        Person temp = findPerson(p);
+
+        if(temp==null)
+        {
+            Person newPerson = new Person();
+            newPerson.setName(p);
+            newPerson.setProject(prj);
+            newPerson.setHeadsProject(false);
+            PersonList.add(newPerson);
+        }
+        else
+        {
+            temp.setHeadsProject(false);
+            temp.setProject(prj);
+        }
     }
     public boolean e_project(String p, String prj)
     {
@@ -204,7 +249,21 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_heads_group(String p, String grp)
     {
-        vec.add("heads-group("+p+","+grp+")");
+        Person temp = findPerson(p);
+
+        if(temp==null)
+        {
+            Person newPerson = new Person();
+            newPerson.setName(p);
+            newPerson.setGroup(grp);
+            newPerson.setHeadsGroup(true);
+            PersonList.add(newPerson);
+        }
+        else
+        {
+            temp.setGroup(grp);
+            temp.setHeadsGroup(true);
+        }
     }
     public boolean e_heads_group(String p, String grp)
     {
@@ -213,12 +272,27 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_heads_project(String p, String prj)
     {
-        vec.add("heads-project("+p+","+prj+")");
+        Person temp = findPerson(p);
+
+        if(temp==null)
+        {
+            Person newPerson = new Person();
+            newPerson.setName(p);
+            newPerson.setProject(prj);
+            newPerson.setHeadsProject(true);
+            PersonList.add(newPerson);
+        }
+        else
+        {
+            temp.setProject(prj);
+            temp.setHeadsProject(true);
+        }
     }
     public boolean e_heads_project(String p, String prj)
     {
         return false;
     }
+
 
     /**
      * This will add everyone that a person works with to that persons
