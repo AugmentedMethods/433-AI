@@ -8,7 +8,21 @@ import java.util.ArrayList;
  */
 public class Rooms {
     private String roomNumber;
+    private String size;
     private boolean occupied;
+    private boolean full;
+    private boolean notFull;  //this is probably redundant
+    ArrayList<Rooms> closeRooms = new ArrayList<Rooms>(); //will hold a list of rooms close to the current
+    //one
+
+    public Rooms (String number) {
+        this.roomNumber = number;
+        occupied = false;
+        size = "nuul";
+        full = false;
+        notFull = false;
+        closeRooms = new ArrayList<Rooms>();
+    }
 
     public String getRoomNumber() {
         return roomNumber;
@@ -42,11 +56,27 @@ public class Rooms {
         this.notFull = notFull;
     }
 
-    private boolean full;
-    private boolean notFull;  //this is probably redundant
+    public void addToClose(Rooms rm){
+        closeRooms.add(rm);
+    }
 
-    ArrayList<Rooms> closeRooms = new ArrayList<Rooms>(); //will hold a list of rooms close to the current
-    //one
+    public ArrayList<Rooms> getClose(){
+        return closeRooms;
+    }
 
+    public void setSmall(){
+        this.size = "small";
+    }
 
+    public void setMedium(){
+        this.size = "medium";
+    }
+
+    public void setLarge(){
+        this.size = "large";
+    }
+
+    public String getSize(){
+        return this.size;
+    }
 }

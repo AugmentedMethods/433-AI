@@ -14,13 +14,10 @@ public class Person {
     private boolean smoker;
     private Rooms currentRoom;
     private String position;
+    private boolean isHacker;
     private boolean sharesRoom;
     private boolean headsGroup;
-
-
     private boolean headsProject;
-
-
     private String project;
     private ArrayList<Person> worksWith;
 
@@ -31,6 +28,7 @@ public class Person {
         smoker = false;
         currentRoom = null;
         position = "";
+        isHacker = false;
         sharesRoom =false;
         headsGroup = false;
         headsProject = false;
@@ -43,6 +41,7 @@ public class Person {
         smoker = false;
         currentRoom = null;
         position = "";
+        isHacker = false;
         sharesRoom =false;
         headsGroup = false;
         headsProject = false;
@@ -131,5 +130,14 @@ public class Person {
         this.sharesRoom = sharesRoom;
     }
 
+    public void setHacker(boolean isHacker) {
+        this.isHacker = isHacker;
+    }
+
+    public boolean isHacker() {
+        return isHacker;
+    }
+
 
 }
+

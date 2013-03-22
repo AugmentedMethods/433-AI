@@ -14,9 +14,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     Vector<String> vec = new Vector<String>();
     ArrayList<Person> PersonList = new ArrayList<Person>();
+    ArrayList<Rooms> RoomList = new ArrayList<Rooms>();
 
-
-    //umm not really sure what im doing here, little rusty on inheritance
     public Environment (String name){
         super(name);
 
@@ -118,12 +117,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
         {
             Person newPerson = new Person();
             newPerson.setName(p);
-            newPerson.setPosition("manager");
+            newPerson.setSmoker(true);
             PersonList.add(newPerson);
         }
         else
         {
-            temp.setPosition("manager");
+            temp.setSmoker(true);
         }
     }
     public boolean e_smoker(String p)
@@ -140,12 +139,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
         {
             Person newPerson = new Person();
             newPerson.setName(p);
-            newPerson.setPosition("hacker");
+            newPerson.setHacker(true);
             PersonList.add(newPerson);
         }
         else
         {
-            temp.setPosition("hacker");
+            temp.setHacker(true);
         }
     }
     public boolean e_hacker(String p)
@@ -378,8 +377,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     // ROOMS
     public void a_room(String r)
     {
-        if(!vec.contains("room("+r+")"))
-            vec.add("room("+r+")");
+        Rooms newRoom = new Rooms(r);
+        newRoom.setRoomNumber(r);
+        RoomList.add(newRoom);
     }
     public boolean e_room(String r)
     {
@@ -388,7 +388,18 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_close(String room, String room2)
     {
-        vec.add("close("+room+","+room2+")");
+        Rooms temp = findRoom(room);
+        Rooms temp2 = findRoom(room2);
+        if(temp==null)
+        {
+            Rooms newRoom = new Rooms(room);
+            newRoom.addToClose(temp2);
+            RoomList.add(newRoom);
+        }
+        else
+        {
+            temp.addToClose(temp2);
+        }
     }
     public boolean e_close(String room, String room2)
     {
@@ -397,7 +408,50 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_close(String room, TreeSet<Pair<Predicate.ParamType,Object>> set)
     {
+        //C&P from a_works_with
+        Rooms temp = findRoom(room);
+        Rooms temp2 = null;
+        //templist is used to object creation in a loop
+        ArrayList <Rooms> tempList = new ArrayList<Rooms>();
+        int counter =0; //keep track of to current object
 
+        //checks to see if the original room already has an entry in the list,
+        //if they do then temp will have that entry, otherwise it will have null
+        if(temp == null)
+        {
+            Rooms newRoom = new Rooms(room); //create a new room and add the close
+            for(Pair<Predicate.ParamType,Object> rm : set)
+            {
+                temp2 = findRoom(rm.getValue().toString());
+                //Will check to see if the works with room already has an entry in the room list
+                if(temp2 == null)
+                {
+                    //creates a new room for every element in the close to tuple
+                    tempList.add(new Rooms(rm.getValue().toString()));
+                    //add the new close to room to the originally created new room
+                    newRoom.addToClose(tempList.get(counter));
+                    counter++;
+                }
+                else
+                    newRoom.addToClose(temp2);
+            }
+            RoomList.add(newRoom);
+        }
+        else //The Room was found
+        {
+            for(Pair<Predicate.ParamType,Object> rm : set)
+            {
+                temp2=findRoom(rm.getValue().toString());
+                if(temp2 == null)
+                {
+                    tempList.add(new Rooms(rm.getValue().toString()));   //creates a new room
+                    temp.addToClose(tempList.get(counter));
+                    counter++;
+                }
+                else
+                    temp.addToClose(temp2);
+            }
+        }
     }
 
     public boolean e_close(String room, TreeSet<Pair<Predicate.ParamType,Object>> set)
@@ -407,8 +461,18 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_large_room(String r)
     {
-        a_room(r);
-        vec.add("large-room("+r+")");
+        Rooms temp = findRoom(r);
+
+        if(temp==null)
+        {
+            Rooms newRoom = new Rooms(r);
+            newRoom.setLarge();
+            RoomList.add(newRoom);
+        }
+        else
+        {
+            temp.setLarge();
+        }
     }
     public boolean e_large_room(String r)
     {
@@ -417,8 +481,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_medium_room(String r)
     {
-        a_room(r);
-        vec.add("medium-room("+r+")");
+        Rooms temp = findRoom(r);
+
+        if(temp==null)
+        {
+            Rooms newRoom = new Rooms(r);
+            newRoom.setMedium();
+            RoomList.add(newRoom);
+        }
+        else
+        {
+            temp.setMedium();
+        }
+
     }
     public boolean e_medium_room(String r)
     {
@@ -427,8 +502,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
     public void a_small_room(String r)
     {
-        a_room(r);
-        vec.add("small-room("+r+")");
+        Rooms temp = findRoom(r);
+
+        if(temp==null)
+        {
+            Rooms newRoom = new Rooms(r);
+            newRoom.setSmall();
+            RoomList.add(newRoom);
+        }
+        else
+        {
+            temp.setSmall();
+        }
+
     }
     public boolean e_small_room(String r)
     {
@@ -467,31 +553,40 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
     }
     public void printvector(PrintStream file)
     {
-        for (String s: vec)
-            file.println(s);
-        for (Person s: PersonList)
-        {
-            System.out.println(s.getName());
-            //System.out.println(s.getPosition());
-        }
-//        for (Person s: PersonList)
-//        {
-//            if(s.getWorksWith().size()>0)
-//            {
-//                for(Person ww : s.getWorksWith())
-//                {
-//                    System.out.println(ww.getName());
-//                }
-//            }
-//        }
-    }
 
-    public void print()
-    {
         for (Person s: PersonList)
         {
-            System.out.println(s.getName());
-            //System.out.println(s.getPosition());
+            System.out.println("person("+s.getName()+")");
+            System.out.println(s.getPosition()+"("+s.getName()+")");
+            if(s.isSmoker()){System.out.println("smoker("+s.getName()+")");}
+            if(s.isHacker()){System.out.println("hacker("+s.getName()+")");}
+            System.out.println("group(" + s.getName() + "," + s.getGroup()+")");
+            if(s.isHeadsGroup()){System.out.println("heads-group("+s.getName()+","+s.getGroup()+")");}
+            if(s.isHeadsProject()){System.out.println("heads-project("+s.getName()+","+s.getProject()+")");}
+            if(!(s.getWorksWith().isEmpty())){
+                System.out.print("works-with("+s.getName()+"{");
+                for(Person t :s.getWorksWith()){
+                    System.out.print(t.getName()+",");
+                }
+                System.out.println("})");
+            }
+        }
+        for (Rooms r: RoomList)
+        {
+            System.out.println(r.getSize()+"-room"+"("+r.getRoomNumber()+")");
+        }
+        System.out.println("\n//room proximity");
+
+        for (Rooms y: RoomList)
+        {
+            if(!y.getClose().isEmpty()){
+                System.out.print("\nclose("+y.getRoomNumber()+"{");
+                for(Rooms x : y.closeRooms){
+                    System.out.print(x.getRoomNumber()+",");
+                }
+                System.out.print("})");
+
+            }
         }
     }
 
@@ -504,9 +599,18 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
         for(Person p : PersonList)
         {
             if(person.equals(p.getName()))
-               return p;
+                return p;
         }
-       return null;
+        return null;
+    }
+    private Rooms findRoom(String room)
+    {
+        for(Rooms r : RoomList)
+        {
+            if(room.equals(r.getRoomNumber()))
+                return r;
+        }
+        return null;
     }
 }
 
