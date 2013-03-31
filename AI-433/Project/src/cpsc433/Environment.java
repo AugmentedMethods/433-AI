@@ -556,35 +556,54 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
         for (Person s: PersonList)
         {
-            System.out.println("person("+s.getName()+")");
-            System.out.println(s.getPosition()+"("+s.getName()+")");
-            if(s.isSmoker()){System.out.println("smoker("+s.getName()+")");}
-            if(s.isHacker()){System.out.println("hacker("+s.getName()+")");}
-            System.out.println("group(" + s.getName() + "," + s.getGroup()+")");
-            if(s.isHeadsGroup()){System.out.println("heads-group("+s.getName()+","+s.getGroup()+")");}
-            if(s.isHeadsProject()){System.out.println("heads-project("+s.getName()+","+s.getProject()+")");}
+            file.println("person("+s.getName()+")");
+            file.println(s.getPosition()+"("+s.getName()+")");
+            if(s.isSmoker()){file.println("smoker("+s.getName()+")");}
+            if(s.isHacker()){file.println("hacker("+s.getName()+")");}
+
+            if(s.getProject()!=null)
+            {
+                file.println("\nproject("+s.getProject()+")");
+                file.println("project("+s.getName()+", "+s.getProject()+")");
+            }
+
+            if(s.isHeadsProject()){file.println("heads-project("+s.getName()+","+s.getProject()+")");}
+
+            if(s.getGroup()!=null)
+            {
+                file.println("\ngroup("+s.getGroup()+")");
+                file.println("group(" + s.getName() + ", " + s.getGroup()+")");
+            }
+
+            if(s.isHeadsGroup()){file.println("heads-group("+s.getName()+","+s.getGroup()+")");}
+
             if(!(s.getWorksWith().isEmpty())){
-                System.out.print("works-with("+s.getName()+"{");
+                file.print("works-with("+s.getName()+", {");
                 for(Person t :s.getWorksWith()){
-                    System.out.print(t.getName()+",");
+                    if(t != s.getWorksWith().get(s.getWorksWith().size()-1))
+                        file.print(t.getName()+", ");
+                    else
+                        file.println(t.getName()+"})");
                 }
-                System.out.println("})");
             }
         }
         for (Rooms r: RoomList)
         {
-            System.out.println(r.getSize()+"-room"+"("+r.getRoomNumber()+")");
+            file.println("\nroom("+r.getRoomNumber()+")");
+            file.println(r.getSize()+"-room"+"("+r.getRoomNumber()+")");
         }
-        System.out.println("\n//room proximity");
+        file.println("\n//room proximity");
 
         for (Rooms y: RoomList)
         {
             if(!y.getClose().isEmpty()){
-                System.out.print("\nclose("+y.getRoomNumber()+"{");
+                file.print("\nclose("+y.getRoomNumber()+", {");
                 for(Rooms x : y.closeRooms){
-                    System.out.print(x.getRoomNumber()+",");
+                    if(x != y.closeRooms.get(y.closeRooms.size()-1))
+                        file.print(x.getRoomNumber()+", ");
+                    else
+                        file.print(x.getRoomNumber()+"})");
                 }
-                System.out.print("})");
 
             }
         }
@@ -612,6 +631,15 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
         }
         return null;
     }
+
+    public ArrayList<Person> getPersonList() {
+        return PersonList;
+    }
+
+    public ArrayList<Rooms> getRoomList() {
+        return RoomList;
+    }
+
 }
 
 

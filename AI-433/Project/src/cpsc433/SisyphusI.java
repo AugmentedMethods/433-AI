@@ -2,6 +2,7 @@ package cpsc433;
 
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 
 /**
@@ -20,16 +21,12 @@ import java.io.PrintStream;
  */
 public class SisyphusI {
 
-    /**
-     *
-     * @param args
-     */
     public static void main(String[] args) {
         Environment enviro =  enviro = new Environment("Main");
-        //Solution.verbosity = Solution.Verbosity.SUMMARY;
-
+        ArrayList<Person> personList = enviro.getPersonList();
+        ArrayList<Rooms> roomList = enviro.getRoomList();
         String fromFile = null;
-        System.out.println("Here:");
+
         if (args.length>0) {
             fromFile = args[0];
             enviro.fromFile(fromFile);
@@ -37,6 +34,9 @@ public class SisyphusI {
         else {
             System.out.println("Synopsis: SisyphusI <env-file> [<solution-file>|<time-in-ms>]");
         }
+
+        Solution testSol = new Solution(personList, roomList);
+
 
         final String out = fromFile+".out";
         try {
