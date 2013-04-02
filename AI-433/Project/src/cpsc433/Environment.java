@@ -48,10 +48,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
             Person newPerson = new Person();
             newPerson.setName(p);
             newPerson.setPosition("secretary");
+            newPerson.setSecretary(true);
             PersonList.add(newPerson);
         }
         else
         {
+            temp.setSecretary(true);
             temp.setPosition("secretary");
         }
 
@@ -95,11 +97,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
             Person newPerson = new Person();
             newPerson.setName(p);
             newPerson.setPosition("manager");
+            newPerson.setManager(true);
             PersonList.add(newPerson);
         }
         else
         {
-            temp.setPosition("manager");
+            temp.setManager(true);
         }
     }
     public boolean e_manager(String p)

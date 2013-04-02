@@ -18,6 +18,8 @@ public class Person {
     private boolean sharesRoom;
     private boolean headsGroup;
     private boolean headsProject;
+    private boolean isManager;
+    private boolean isSecretary;
     private String project;
     private ArrayList<Person> worksWith;
 
@@ -32,6 +34,24 @@ public class Person {
         sharesRoom =false;
         headsGroup = false;
         headsProject = false;
+        isManager = false;
+        isSecretary = false;
+    }
+
+    public boolean isSecretary() {
+        return isSecretary;
+    }
+
+    public void setSecretary(boolean secretary) {
+        isSecretary = secretary;
+    }
+
+    public boolean isManager() {
+        return isManager;
+    }
+
+    public void setManager(boolean manager) {
+        isManager = manager;
     }
 
     public Person (String name)

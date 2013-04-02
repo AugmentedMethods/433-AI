@@ -411,6 +411,6 @@ public class Test {
 
 	static void write(byte[] s, int offset, int count) throws Exception {
 		System.out.write(s, offset, count);
-		traceFile.write(s, offset, count);;
+		traceFile.write(s, offset, count);
 	}
 }

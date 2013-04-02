@@ -6,17 +6,14 @@ import java.util.ArrayList;
 
  */
 public class Node {
-    private Node Parent;
-    private ArrayList<Node> child;
     private Person person;
-    private Rooms room;
-    private int totalGoodnessValue;
-    private int goodnessValue;
+    private Rooms room;    //Both a room and person are added to aid in the room proximity calculations
+    //I imagine it should make it easier.
+    private int totalGoodnessValue;    //the current goodness value of the the prior nodes
+    private int goodnessValue;         //the current goodness value.
 
     public Node ()
     {
-        Parent = null;
-        child = new ArrayList<Node>();
         person = null;
         room = null;
         goodnessValue = 0;
@@ -38,22 +35,6 @@ public class Node {
         this.goodnessValue = goodnessValue;
     }
 
-    public Node getParent() {
-        return Parent;
-    }
-
-    public void setParent(Node parent) {
-        Parent = parent;
-    }
-
-    public ArrayList<Node> getChild() {
-        return child;
-    }
-
-    public void setChild(Node child) {
-        this.child.add(child);
-    }
-
     public Person getPerson() {
         return person;
     }
@@ -68,6 +49,14 @@ public class Node {
 
     public void setRoom(Rooms room) {
         this.room = room;
+    }
+
+    public void clearNode()
+    {
+        person = null;
+        room = null;
+        totalGoodnessValue = 0;
+        goodnessValue = 0;
     }
 
 }
