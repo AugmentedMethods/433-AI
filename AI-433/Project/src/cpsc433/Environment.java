@@ -470,10 +470,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
         {
             Rooms newRoom = new Rooms(r);
             newRoom.setLarge();
+            newRoom.setLarge(true);
             RoomList.add(newRoom);
         }
         else
         {
+            temp.setLarge(true);
             temp.setLarge();
         }
     }
@@ -490,10 +492,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
         {
             Rooms newRoom = new Rooms(r);
             newRoom.setMedium();
+            newRoom.setMedium(true);
             RoomList.add(newRoom);
         }
         else
         {
+            temp.setMedium(true);
             temp.setMedium();
         }
 
@@ -511,11 +515,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
         {
             Rooms newRoom = new Rooms(r);
             newRoom.setSmall();
+            newRoom.setSmall(true);
             RoomList.add(newRoom);
         }
         else
         {
             temp.setSmall();
+            temp.setSmall(true);
         }
 
     }

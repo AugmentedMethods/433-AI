@@ -15,6 +15,10 @@ public class Solution {
     private ArrayList<Person> projectHeads = new ArrayList<Person>();
 
     private ArrayList<Rooms> roomList;
+    ArrayList<Rooms> smallRooms = new ArrayList<Rooms>();
+    ArrayList<Rooms> mediumRooms = new ArrayList<Rooms>();
+    ArrayList<Rooms> largeRooms = new ArrayList<Rooms>();
+
     private Tree orTree;
     Node tempNode = new Node();
 
@@ -23,19 +27,26 @@ public class Solution {
         this.personList = personList;
         this.roomList = roomList;
         orTree = new Tree();
-        runSolution();
+        getSortedData();
     }
 
 
-    public void runSolution()
+    public void getSortedData()
     {
         PersonSort temp = new PersonSort();
+        RoomSort sortRoom = new RoomSort();
+
         temp.sortPersonList(personList);
+        sortRoom.roomSort(roomList);
 
         groupHeads = temp.getGroupHeads();
         secretaryList = temp.getSecretaryList();
         managers = temp.getManagers();
         projectHeads = temp.getProjectHeads();
+
+        smallRooms = sortRoom.getSmallRooms();
+        mediumRooms = sortRoom.getMediumRooms();
+        largeRooms = sortRoom.getLargeRooms();
     }
 
 
