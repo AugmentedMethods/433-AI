@@ -32,10 +32,11 @@ public class Tree {
         if(current.getChildNodes().size()==0)
             return;
         else{
-
             traverse(current.getChildNodes().get(0));
-            if(current.getPerson()!=null)
+            if(current.getPerson()!=null &&current.getRoom() != null){
                 System.out.println(current.getPerson().getName());
+                System.out.println(current.getRoom().getRoomNumber());
+            }
         }
     }
 }

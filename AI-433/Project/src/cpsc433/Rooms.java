@@ -33,6 +33,8 @@ public class Rooms {
         small = false;
         medium = false;
         large = false;
+        personOne = null;
+        personTwo = null;
     }
 
     public String getRoomNumber() {
@@ -60,7 +62,17 @@ public class Rooms {
     }
 
     public boolean isNotFull() {
-        return notFull;
+        if(personOne == null || personTwo == null)
+        {
+            notFull = true;
+            return notFull;
+        }
+        else
+        {
+            notFull = true;
+            return false;
+        }
+
     }
 
     public void setNotFull(boolean notFull) {

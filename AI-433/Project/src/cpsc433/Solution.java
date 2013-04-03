@@ -53,8 +53,7 @@ public class Solution {
 
     public void beginSearch()
     {
-        int counter = personList.size();
-        buildTree(counter, head);
+        buildTree(0,personList.size(), head);
         orTree.traverse(head);
     }
 
@@ -62,21 +61,45 @@ public class Solution {
      * This should be a simple linked list for now
      * @param counter
      */
-    private void buildTree(int counter, Node current)
+    private void buildTree(int counter, int maxSize, Node current)
     {
-        if(counter ==0)
+        if(counter == maxSize)
             return;
         else
         {
             orTree.add(current, createTuple(counter));
-            buildTree(counter-1, current.getChildNodes().get(0));
+            for(Node node : current.getChildNodes())
+                buildTree(counter+1,maxSize, node);
         }
+    }
+
+    /**
+     * Select the people from the people list that could be added,
+     * removes any that already appear in the solution
+     * @param current
+     */
+    private void addChildren(Node current)
+    {
+
     }
 
     private Node createTuple(int counter)
     {
         Node node = new Node();
-        node.setPerson(personList.get(counter-1));
+        node.setPerson(personList.get(counter));
+        for(Rooms r : roomList)
+        {
+            if(r.isNotFull())
+            {
+                node.setRoom(r);
+                if(r.getPersonOne()==null)
+                    r.setPersonOne(personList.get(counter));
+                else if(r.getPersonTwo() == null)
+                    r.setPersonTwo(personList.get(counter));
+                break;
+            }
+        }
         return node;
     }
+
 }
