@@ -36,7 +36,7 @@ public class SisyphusI {
         }
 
         Solution testSol = new Solution(personList, roomList);
-
+        testSol.beginSearch();
 
         final String out = fromFile+".out";
         try {

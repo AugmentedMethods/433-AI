@@ -6,30 +6,36 @@ import java.util.ArrayList;
  *
  */
 public class Tree {
-
-    private Node Parent;
-    private ArrayList<Node> child;
+    //this is the root node, it will be empty
+    Node head = new Node();
 
     public Tree ()
     {
-        Parent = null;
-        child = new ArrayList<Node>();
     }
 
-    public Node getParent() {
-        return Parent;
+    /**
+     * will add a child to the list of children
+     * @param current
+     * @param toAdd
+     */
+    public void add(Node current, Node toAdd)
+    {
+        current.setChild(toAdd);
     }
 
-    public void setParent(Node parent) {
-        Parent = parent;
-    }
+    /**
+     * Simple traverse function, currently set up only for a linked list
+     * @param current
+     */
+    public void traverse(Node current)
+    {
+        if(current.getChildNodes().size()==0)
+            return;
+        else{
 
-    public ArrayList<Node> getChildNodes() {
-        return child;
+            traverse(current.getChildNodes().get(0));
+            if(current.getPerson()!=null)
+                System.out.println(current.getPerson().getName());
+        }
     }
-
-    public void setChild(Node child) {
-        this.child.add(child);
-    }
-
 }

@@ -20,13 +20,15 @@ public class Solution {
     ArrayList<Rooms> largeRooms = new ArrayList<Rooms>();
 
     private Tree orTree;
-    Node tempNode = new Node();
+    private Node head;
+    private Node tempNode = new Node();
 
     public Solution (ArrayList<Person> personList, ArrayList<Rooms> roomList)
     {
         this.personList = personList;
         this.roomList = roomList;
         orTree = new Tree();
+        head = new Node();
         getSortedData();
     }
 
@@ -49,9 +51,32 @@ public class Solution {
         largeRooms = sortRoom.getLargeRooms();
     }
 
+    public void beginSearch()
+    {
+        int counter = personList.size();
+        buildTree(counter, head);
+        orTree.traverse(head);
+    }
 
+    /**
+     * This should be a simple linked list for now
+     * @param counter
+     */
+    private void buildTree(int counter, Node current)
+    {
+        if(counter ==0)
+            return;
+        else
+        {
+            orTree.add(current, createTuple(counter));
+            buildTree(counter-1, current.getChildNodes().get(0));
+        }
+    }
 
-
-
-
+    private Node createTuple(int counter)
+    {
+        Node node = new Node();
+        node.setPerson(personList.get(counter-1));
+        return node;
+    }
 }

@@ -3,20 +3,29 @@ package cpsc433;
 import java.util.ArrayList;
 
 /**
-
+ * This is a standard Node class used in both tree's and linked list
  */
 public class Node {
+
+    //A node will contain both a person and a room that that person is in
     private Person person;
-    private Rooms room;    //Both a room and person are added to aid in the room proximity calculations
-    //I imagine it should make it easier.
-    private int totalGoodnessValue;    //the current goodness value of the the prior nodes
-    private int goodnessValue;         //the current goodness value.
+    private Rooms room;
+
+    //A node will contain both its individual goodness value and the summation of the
+    //nodes in its path
+    private int totalGoodnessValue;
+    private int goodnessValue;
+
+    //Standard parent child, the child is a list because we are not creating a binary tree
+    private Node Parent;
+    private ArrayList<Node> child;
 
     public Node ()
     {
         person = null;
         room = null;
         goodnessValue = 0;
+        child = new ArrayList<Node>();
     }
 
     public int getTotalGoodnessValue() {
@@ -51,6 +60,7 @@ public class Node {
         this.room = room;
     }
 
+    //Could be used to clear a node, might not be needed anymore
     public void clearNode()
     {
         person = null;
@@ -58,5 +68,22 @@ public class Node {
         totalGoodnessValue = 0;
         goodnessValue = 0;
     }
+
+    public ArrayList<Node> getChildNodes() {
+        return child;
+    }
+
+    public void setChild(Node child) {
+        this.child.add(child);
+    }
+
+    public Node getParent() {
+        return Parent;
+    }
+
+    public void setParent(Node parent) {
+        Parent = parent;
+    }
+
 
 }
