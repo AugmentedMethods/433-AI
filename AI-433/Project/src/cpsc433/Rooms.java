@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Rooms {
     private String roomNumber;
     private String size;
-    private boolean occupied;
+
     private boolean full;
     private boolean notFull;  //this is probably redundant
 
@@ -25,7 +25,6 @@ public class Rooms {
 
     public Rooms (String number) {
         this.roomNumber = number;
-        occupied = false;
         size = "nuul";
         full = false;
         notFull = false;
@@ -45,14 +44,6 @@ public class Rooms {
         this.roomNumber = roomNumber;
     }
 
-    public boolean isOccupied() {
-        return occupied;
-    }
-
-    public void setOccupied(boolean occupied) {
-        this.occupied = occupied;
-    }
-
     public boolean isFull() {
         return full;
     }
@@ -61,6 +52,10 @@ public class Rooms {
         this.full = full;
     }
 
+    /**
+     * has atleast one occupant
+     * @return
+     */
     public boolean isNotFull() {
         if(personOne == null || personTwo == null)
         {
@@ -73,6 +68,17 @@ public class Rooms {
             return false;
         }
 
+    }
+
+    /**
+     * This needs to be tested (could cause a bug)
+     * @return
+     */
+    public boolean oneOccupant()
+    {
+        if((personOne == null) != (personTwo == null))
+            return true;
+        return false;
     }
 
     public void setNotFull(boolean notFull) {

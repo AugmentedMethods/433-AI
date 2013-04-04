@@ -15,11 +15,11 @@ public class Person {
     private Rooms currentRoom;
     private String position;
     private boolean isHacker;
-    private boolean sharesRoom;
     private boolean headsGroup;
     private boolean headsProject;
     private boolean isManager;
     private boolean isSecretary;
+
     private String project;
     private ArrayList<Person> worksWith;
 
@@ -31,11 +31,22 @@ public class Person {
         currentRoom = null;
         position = "";
         isHacker = false;
-        sharesRoom =false;
         headsGroup = false;
         headsProject = false;
         isManager = false;
         isSecretary = false;
+    }
+
+    public Person (String name)
+    {
+        this.name = name;
+        worksWith = new ArrayList<Person>();
+        smoker = false;
+        currentRoom = null;
+        position = "";
+        isHacker = false;
+        headsGroup = false;
+        headsProject = false;
     }
 
     public boolean isSecretary() {
@@ -52,19 +63,6 @@ public class Person {
 
     public void setManager(boolean manager) {
         isManager = manager;
-    }
-
-    public Person (String name)
-    {
-        this.name = name;
-        worksWith = new ArrayList<Person>();
-        smoker = false;
-        currentRoom = null;
-        position = "";
-        isHacker = false;
-        sharesRoom =false;
-        headsGroup = false;
-        headsProject = false;
     }
 
     public boolean isHeadsProject() {
@@ -126,10 +124,6 @@ public class Person {
         return position;
     }
 
-    public boolean isSharesRoom() {
-        return sharesRoom;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -146,9 +140,6 @@ public class Person {
         this.position = position;
     }
 
-    public void setSharesRoom(boolean sharesRoom) {
-        this.sharesRoom = sharesRoom;
-    }
 
     public void setHacker(boolean isHacker) {
         this.isHacker = isHacker;
