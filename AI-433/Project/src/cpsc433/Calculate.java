@@ -170,6 +170,7 @@ public class Calculate {
     
     private void SC13(Node node) //SC13 - Not sure what's going on here...
     {
+        
     }
     
     private void wantOwnRoom(Node node) //SC14
