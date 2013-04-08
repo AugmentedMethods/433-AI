@@ -29,11 +29,15 @@ public class Tree {
      */
     public void traverse(Node current)
     {
+        Calculate calc = new Calculate();
+                        
         if(current.getChildNodes().size()==0)
             return;
         else{
             traverse(current.getChildNodes().get(0));
             if(current.getPerson()!=null &&current.getRoom() != null){
+                
+
                 
                 calc.groupHeadLargeOffice(current);
                 calc.closeToSecretary(current);
