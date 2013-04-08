@@ -13,8 +13,26 @@ public class Calculate {
     public Boolean calculation(Node node)
     {
         if(hardConstrainCheck(node))
-            return false;
+            return true;
         return false;
+    }
+
+    public void update(Node node)
+    {
+        if (calculation(node))
+        {
+            groupHeadLargeOffice(node);
+            closeToSecretary(node);
+            managerCloseGroupHead(node);
+            smoker(node);
+            managerCloseSecretary(node);
+            headsLargeProjectsCloseSecretary(node);
+            headsLargeProjectsCloseHeadGroup(node);
+            sameProjectNotShareRoom(node);
+            wantOwnRoom(node);
+            sharingShouldWorkTogether(node);
+            dontShareSmallRoom(node);
+        }
     }
 
     private boolean hardConstrainCheck(Node node)
@@ -28,7 +46,7 @@ public class Calculate {
 
     }
 
-    public void groupHeadLargeOffice(Node node) // SC1
+    private void groupHeadLargeOffice(Node node) // SC1
     {
         if(node.getRoom().isLarge())
             return;
@@ -36,7 +54,7 @@ public class Calculate {
         node.setTotalGoodnessValue(node.getTotalGoodnessValue() - 40);
     }
 
-    public void closeToSecretary(Node node) // SC3
+    private void closeToSecretary(Node node) // SC3
     {
         for( Rooms r : node.getRoom().getClose())
         {
@@ -55,7 +73,7 @@ public class Calculate {
         node.setTotalGoodnessValue(node.getTotalGoodnessValue()-30);
     }
 
-    public void managerCloseGroupHead(Node node) //SC6
+    private void managerCloseGroupHead(Node node) //SC6
     {
         for( Rooms r : node.getRoom().getClose())
         {
@@ -74,7 +92,7 @@ public class Calculate {
         node.setTotalGoodnessValue(node.getTotalGoodnessValue()-20);
     }
 
-    public void smoker(Node node) // SC11
+    private void smoker(Node node) // SC11
     {
         //xnor
         boolean temp = (!((node.getRoom().getPersonOne().isSmoker()) ^  (node.getRoom().getPersonTwo().isSmoker())) );
@@ -85,7 +103,7 @@ public class Calculate {
 
     }
 
-    public void managerCloseSecretary(Node node) // SC5
+    private void managerCloseSecretary(Node node) // SC5
     {
         for( Rooms r : node.getRoom().getClose())
         {
@@ -104,7 +122,7 @@ public class Calculate {
         node.setTotalGoodnessValue(node.getTotalGoodnessValue()-20);
     }
 
-    public void headsLargeProjectsCloseSecretary(Node node) // SC9
+    private void headsLargeProjectsCloseSecretary(Node node) // SC9
     {
         if(node.getRoom().getPersonOne().isHeadsProject() || node.getRoom().getPersonTwo().isHeadsProject())
         {
@@ -134,7 +152,7 @@ public class Calculate {
         node.setTotalGoodnessValue(node.getTotalGoodnessValue()-10);
     }
 
-    public void headsLargeProjectsCloseHeadGroup(Node node) // SC10
+    private void headsLargeProjectsCloseHeadGroup(Node node) // SC10
     {
         if(node.getRoom().getPersonOne().isHeadsProject() || node.getRoom().getPersonTwo().isHeadsProject())
         {
@@ -164,7 +182,7 @@ public class Calculate {
         node.setTotalGoodnessValue(node.getTotalGoodnessValue()-10);
     }
 
-    public void sameProjectNotShareRoom(Node node) // SC12
+    private void sameProjectNotShareRoom(Node node) // SC12
     {
         if(node.getRoom().getPersonOne() == null)
             return;
@@ -181,7 +199,7 @@ public class Calculate {
 
     }
 
-    public void wantOwnRoom(Node node) //SC14
+    private void wantOwnRoom(Node node) //SC14
     {
         if(node.getRoom().getPersonOne() == null)
             return;
@@ -193,7 +211,7 @@ public class Calculate {
         }
     }
 
-    public void sharingShouldWorkTogether(Node node) // SC15
+    private void sharingShouldWorkTogether(Node node) // SC15
     {
         if(node.getRoom().getPersonOne() == null)
             return;
@@ -205,7 +223,7 @@ public class Calculate {
         node.setTotalGoodnessValue(node.getTotalGoodnessValue()-3);
     }
 
-    public void dontShareSmallRoom(Node node) // SC16
+    private void dontShareSmallRoom(Node node) // SC16
     {
         if(node.getRoom().isSmall())
         {
