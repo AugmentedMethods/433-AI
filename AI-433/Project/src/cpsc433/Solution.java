@@ -22,6 +22,7 @@ public class Solution {
     private Tree orTree;
     private Node head;
     private Node tempNode = new Node();
+    int personCounter;
 
     public Solution (ArrayList<Person> personList, ArrayList<Rooms> roomList)
     {
@@ -32,7 +33,16 @@ public class Solution {
         getSortedData();
     }
 
-
+/*    public void setPersonCounter(int counter)
+    {
+        personCounter = counter;
+    }
+    
+    public int getPersonCounter()
+    {
+        return personCounter;
+    } */
+    
     public void getSortedData()
     {
         PersonSort temp = new PersonSort();
@@ -53,34 +63,43 @@ public class Solution {
 
     public void beginSearch()
     {
-        buildTree(0,personList.size(), head);
+        buildTree(0,personList.size(), head, personList);
         orTree.traverse(head);
     }
 
     /**
-     * This should be a simple linked list for now
-     * @param counter
+     * Populate the tree
+     * Logic might be a little fuzzy?
+     * Untested.
      */
-    private void buildTree(int counter, int maxSize, Node current)
+    private void buildTree(int counter, int maxSize, Node current, ArrayList<Person> people)
     {
         if(counter == maxSize)
             return;
         else
         {
-            orTree.add(current, createTuple(counter));
+            int temp = counter;
+            while(temp != maxSize)
+            {
+                orTree.add(current, createTuple(temp));
+                temp++;
+            }
             for(Node node : current.getChildNodes())
-                buildTree(counter+1,maxSize, node);
+                addChildren(node, people);
         }
     }
 
     /**
      * Select the people from the people list that could be added,
      * removes any that already appear in the solution
-     * @param current
+     * Untested.
      */
-    private void addChildren(Node current)
+    private void addChildren(Node current, ArrayList<Person> people)
     {
-
+        ArrayList<Person> tempPersonList = new ArrayList<Person>();
+        tempPersonList = people;
+        tempPersonList.remove(this);
+        buildTree(0, tempPersonList.size(), current, tempPersonList);
     }
 
     private Node createTuple(int counter)
