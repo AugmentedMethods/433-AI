@@ -34,8 +34,22 @@ public class Tree {
         else{
             traverse(current.getChildNodes().get(0));
             if(current.getPerson()!=null &&current.getRoom() != null){
+                
+                calc.groupHeadLargeOffice(current);
+                calc.closeToSecretary(current);
+                calc.managerCloseGroupHead(current);
+                calc.smoker(current);
+                calc.managerCloseSecretary(current);
+                calc.headsLargeProjectsCloseSecretary(current);
+                calc.headsLargeProjectsCloseHeadGroup(current);
+                calc.sameProjectNotShareRoom(current);
+                calc.wantOwnRoom(current);
+                calc.sharingShouldWorkTogether(current);
+                calc.dontShareSmallRoom(current);
+                
                 System.out.println(current.getPerson().getName());
                 System.out.println(current.getRoom().getRoomNumber());
+                System.out.println(current.getGoodnessValue());
             }
         }
     }
