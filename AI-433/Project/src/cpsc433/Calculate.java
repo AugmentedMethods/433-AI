@@ -6,7 +6,41 @@ package cpsc433;
 public class Calculate {
 
     /**
-     * The basic entry function to perform a calculation
+     * Main method to call to get the goodness value
+     * return 1 for success
+     * return 0 for bad node
+     * return -1 for bad tree(total goodness to high
+     * -2 for failure
+     * @param node
+     */
+    public int update(Node node)
+    {
+        groupHeadLargeOffice(node);
+        closeToSecretary(node);
+        managerCloseGroupHead(node);
+
+        if(node.getRoom().getPersonOne()!= null && node.getRoom().getPersonTwo() != null)  {
+            smoker(node);
+            headsLargeProjectsCloseSecretary(node);
+            headsLargeProjectsCloseHeadGroup(node);
+        }
+        managerCloseSecretary(node);
+        sameProjectNotShareRoom(node);
+        wantOwnRoom(node);
+        sharingShouldWorkTogether(node);
+        dontShareSmallRoom(node);
+
+        if(!calculation(node)|| node.getGoodnessValue() < -200)
+            return 0;
+        else if(node.getTotalGoodnessValue() < -3000)
+            return -1;
+        else if(calculation(node)&& node.getGoodnessValue() > -200 &&node.getTotalGoodnessValue() > -3000 )
+            return 1;
+        return -2;
+    }
+
+    /**
+     * Calculated the hard constraint
      * @param node
      * @return true if a valid node, false otherwise.
      */
@@ -15,24 +49,6 @@ public class Calculate {
         if(hardConstrainCheck(node))
             return true;
         return false;
-    }
-
-    public void update(Node node)
-    {
-        if (calculation(node))
-        {
-            groupHeadLargeOffice(node);
-            closeToSecretary(node);
-            managerCloseGroupHead(node);
-            smoker(node);
-            managerCloseSecretary(node);
-            headsLargeProjectsCloseSecretary(node);
-            headsLargeProjectsCloseHeadGroup(node);
-            sameProjectNotShareRoom(node);
-            wantOwnRoom(node);
-            sharingShouldWorkTogether(node);
-            dontShareSmallRoom(node);
-        }
     }
 
     private boolean hardConstrainCheck(Node node)
@@ -100,8 +116,9 @@ public class Calculate {
             return;
         node.setGoodnessValue(node.getGoodnessValue() -50);
         node.setTotalGoodnessValue(node.getTotalGoodnessValue() - 50);
-
     }
+
+
 
     private void managerCloseSecretary(Node node) // SC5
     {

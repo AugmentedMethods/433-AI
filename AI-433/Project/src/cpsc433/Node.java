@@ -20,13 +20,26 @@ public class Node {
     private Node Parent;
     private ArrayList<Node> child;
 
+
+    private int visited;
+
     public Node ()
     {
         person = null;
         room = null;
         goodnessValue = 0;
         child = new ArrayList<Node>();
+        visited = 0;
     }
+
+    public int getVisited() {
+        return visited;
+    }
+
+    public void setVisited(int visited) {
+        this.visited = visited;
+    }
+
 
     public int getTotalGoodnessValue() {
         return totalGoodnessValue;

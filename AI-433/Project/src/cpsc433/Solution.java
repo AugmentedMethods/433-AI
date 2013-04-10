@@ -9,19 +9,22 @@ public class Solution {
 
     private ArrayList<Person> personList;
 
-    private ArrayList<Person> secretaryList = new ArrayList<Person>();
-    private ArrayList<Person> groupHeads = new ArrayList<Person>();
-    private ArrayList<Person> managers = new ArrayList<Person>();
-    private ArrayList<Person> projectHeads = new ArrayList<Person>();
+    private ArrayList<Person> secretaryList;
+    private ArrayList<Person> groupHeads;
+    private ArrayList<Person> managers;
+    private ArrayList<Person> projectHeads;
 
     private ArrayList<Rooms> roomList;
-    ArrayList<Rooms> smallRooms = new ArrayList<Rooms>();
-    ArrayList<Rooms> mediumRooms = new ArrayList<Rooms>();
-    ArrayList<Rooms> largeRooms = new ArrayList<Rooms>();
+    ArrayList<Rooms> smallRooms;
+    ArrayList<Rooms> mediumRooms;
+    ArrayList<Rooms> largeRooms;
 
     private Tree orTree;
     private Node head;
     private Node tempNode = new Node();
+
+    private Calculate generalCalcObj;
+
     int personCounter;
 
     public Solution (ArrayList<Person> personList, ArrayList<Rooms> roomList)
@@ -31,18 +34,11 @@ public class Solution {
         orTree = new Tree();
         head = new Node();
         getSortedData();
+        generalCalcObj = new Calculate();
     }
 
-/*    public void setPersonCounter(int counter)
-    {
-        personCounter = counter;
-    }
-    
-    public int getPersonCounter()
-    {
-        return personCounter;
-    } */
-    
+
+
     public void getSortedData()
     {
         PersonSort temp = new PersonSort();
@@ -63,62 +59,62 @@ public class Solution {
 
     public void beginSearch()
     {
-        buildTree(0,personList.size(), head, personList);
+        buildTree(head, arrayCopy(),0);
         orTree.traverse(head);
     }
 
     /**
-     * Populate the tree
-     * Logic might be a little fuzzy?
-     * Untested.
-     */
-    private void buildTree(int counter, int maxSize, Node current, ArrayList<Person> people)
+    * This should be a simple linked list for now
+    */
+    private void buildTree(Node current, ArrayList<Person> partialList, int nodeNum)
     {
-        if(counter == maxSize)
+        Node temp;
+        int checkVal;
+        if(partialList.size()==0)
             return;
         else
         {
-            int temp = counter;
-            while(temp != maxSize)
+            temp = createTuple(partialList.get(0));
+            current = temp;
+            partialList.remove(nodeNum);
+            for(Person p : partialList)
             {
-                orTree.add(current, createTuple(temp));
-                temp++;
+                temp = createTuple(p);
+                current.setChild(temp);
             }
-            for(Node node : current.getChildNodes())
-                addChildren(node, people);
+            for(int i = 0; i < current.getChildNodes().size(); i++)
+            {
+                buildTree(current.getChildNodes().get(i) , partialList,i);
+            }
         }
     }
 
-    /**
-     * Select the people from the people list that could be added,
-     * removes any that already appear in the solution
-     * Untested.
-     */
-    private void addChildren(Node current, ArrayList<Person> people)
+    private ArrayList<Person> arrayCopy ()
     {
-        ArrayList<Person> tempPersonList = new ArrayList<Person>();
-        tempPersonList = people;
-        tempPersonList.remove(this);
-        buildTree(0, tempPersonList.size(), current, tempPersonList);
+         ArrayList<Person> tempList = new ArrayList<Person>();
+        for(Person p : personList)
+            tempList.add(p);
+        return tempList;
     }
 
-    private Node createTuple(int counter)
+    private Node createTuple(Person p)
     {
         Node node = new Node();
-        node.setPerson(personList.get(counter));
+        node.setPerson(p);
         for(Rooms r : roomList)
         {
             if(r.isNotFull())
             {
                 node.setRoom(r);
                 if(r.getPersonOne()==null)
-                    r.setPersonOne(personList.get(counter));
+                    r.setPersonOne(p);
                 else if(r.getPersonTwo() == null)
-                    r.setPersonTwo(personList.get(counter));
+                    r.setPersonTwo(p);
                 break;
             }
         }
         return node;
     }
+
 
 }
