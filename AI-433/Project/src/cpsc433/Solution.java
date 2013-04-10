@@ -59,14 +59,15 @@ public class Solution {
 
     public void beginSearch()
     {
-        buildTree(orTree.head, arrayCopy(),0);
+        buildTree(orTree.head, arrayCopy(), arrayCopy2(), 0);
         orTree.traverse(orTree.head);
+        
     }
 
     /**
     * This should be a simple linked list for now
     */
-    private void buildTree(Node current, ArrayList<Person> partialList, int nodeNum)
+    private void buildTree(Node current, ArrayList<Person> partialList, ArrayList<Rooms> partialList2, int nodeNum)
     {
         Node temp;
         int checkVal;
@@ -74,17 +75,21 @@ public class Solution {
             return;
         else
         {
-            temp = createTuple(partialList.get(0));
+            temp = createTuple(partialList.get(0), partialList2);
             orTree.add(current, temp);
             partialList.remove(nodeNum);
+            partialList2.remove(nodeNum);
             for(Person p : partialList)
             {
-                temp = createTuple(p);
+                temp = createTuple(p,partialList2);
+                
                 current.setChild(temp);
             }
             for(int i = 0; i < current.getChildNodes().size(); i++)
             {
-                buildTree(current.getChildNodes().get(i) , partialList,i);
+                current.getChildNodes().get(i).setParent(current);
+            	generalCalcObj.update(current.getChildNodes().get(i));
+                buildTree(current.getChildNodes().get(i) , partialList, arrayCopy2(), i);
             }
         }
     }
@@ -96,12 +101,24 @@ public class Solution {
             tempList.add(p);
         return tempList;
     }
+    
+    private ArrayList<Rooms> arrayCopy2()
+    {
+    	ArrayList<Rooms> tempList = new ArrayList<Rooms>();
+    	for(Rooms r : roomList){
+    		r.setPersonOne(null);
+    		r.setPersonTwo(null);
+    		r.setNotFull(false);
+    		tempList.add(r);
+    	}
+    	return tempList;
+    }
 
-    private Node createTuple(Person p)
+    private Node createTuple(Person p, ArrayList<Rooms> partialList)
     {
         Node node = new Node();
         node.setPerson(p);
-        for(Rooms r : roomList)
+        for(Rooms r : partialList)
         {
             if(r.isNotFull())
             {
@@ -115,6 +132,4 @@ public class Solution {
         }
         return node;
     }
-
-
 }
