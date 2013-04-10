@@ -59,8 +59,8 @@ public class Solution {
 
     public void beginSearch()
     {
-        buildTree(head, arrayCopy(),0);
-        orTree.traverse(head);
+        buildTree(orTree.head, arrayCopy(),0);
+        orTree.traverse(orTree.head);
     }
 
     /**
@@ -75,7 +75,7 @@ public class Solution {
         else
         {
             temp = createTuple(partialList.get(0));
-            current = temp;
+            orTree.add(current, temp);
             partialList.remove(nodeNum);
             for(Person p : partialList)
             {

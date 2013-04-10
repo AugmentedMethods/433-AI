@@ -29,6 +29,7 @@ public class Tree {
      */
     public void traverse(Node current)
     {
+
         if(current.getChildNodes().size()==0)
             return;
         else{
