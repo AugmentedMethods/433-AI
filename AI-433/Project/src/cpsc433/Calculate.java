@@ -32,7 +32,7 @@ public class Calculate {
 
         if(!calculation(node)|| node.getGoodnessValue() < -200)
             return 0;
-        else if(node.getTotalGoodnessValue() < -3000)
+        else if(node.getParent().getTotalGoodnessValue() < -3000)
             return -1;
         else if(calculation(node)&& node.getGoodnessValue() > -200 &&node.getTotalGoodnessValue() > -3000 )
             return 1;
@@ -66,8 +66,11 @@ public class Calculate {
     {
         if(node.getRoom().isLarge())
             return;
+        if(!node.getPerson().isHeadsGroup())
+            return;
+        //System.out.println("SC1!");
         node.setGoodnessValue(node.getGoodnessValue() -40);
-        node.setTotalGoodnessValue(node.getTotalGoodnessValue() - 40);
+        node.setTotalGoodnessValue(node.getParent().getTotalGoodnessValue() - 40 + node.getGoodnessValue());
     }
 
     private void closeToSecretary(Node node) // SC3
@@ -85,8 +88,9 @@ public class Calculate {
                     return;
             }
         }
+        //System.out.println("SC3!");
         node.setGoodnessValue(node.getGoodnessValue() -30);
-        node.setTotalGoodnessValue(node.getTotalGoodnessValue()-30);
+        node.setTotalGoodnessValue(node.getParent().getTotalGoodnessValue()-30 + node.getGoodnessValue());
     }
 
     private void managerCloseGroupHead(Node node) //SC6
@@ -104,8 +108,9 @@ public class Calculate {
                     return;
             }
         }
+        //System.out.println("SC6!");
         node.setGoodnessValue(node.getGoodnessValue() -20);
-        node.setTotalGoodnessValue(node.getTotalGoodnessValue()-20);
+        node.setTotalGoodnessValue(node.getParent().getTotalGoodnessValue()-20 + node.getGoodnessValue());
     }
 
     private void smoker(Node node) // SC11
@@ -114,8 +119,9 @@ public class Calculate {
         boolean temp = (!((node.getRoom().getPersonOne().isSmoker()) ^  (node.getRoom().getPersonTwo().isSmoker())) );
         if(temp)
             return;
+        //System.out.println("SC11!");
         node.setGoodnessValue(node.getGoodnessValue() -50);
-        node.setTotalGoodnessValue(node.getTotalGoodnessValue() - 50);
+        node.setTotalGoodnessValue(node.getParent().getTotalGoodnessValue() - 50 + node.getGoodnessValue());
     }
 
 
@@ -135,8 +141,9 @@ public class Calculate {
                     return;
             }
         }
+        //System.out.println("SC5!");
         node.setGoodnessValue(node.getGoodnessValue() -20);
-        node.setTotalGoodnessValue(node.getTotalGoodnessValue()-20);
+        node.setTotalGoodnessValue(node.getParent().getTotalGoodnessValue()-20 + node.getGoodnessValue());
     }
 
     private void headsLargeProjectsCloseSecretary(Node node) // SC9
@@ -165,8 +172,9 @@ public class Calculate {
                 }
             }
         }
+        //System.out.println("SC9!");
         node.setGoodnessValue(node.getGoodnessValue() -10);
-        node.setTotalGoodnessValue(node.getTotalGoodnessValue()-10);
+        node.setTotalGoodnessValue(node.getParent().getTotalGoodnessValue()-10 + node.getGoodnessValue());
     }
 
     private void headsLargeProjectsCloseHeadGroup(Node node) // SC10
@@ -195,8 +203,9 @@ public class Calculate {
                 }
             }
         }
+        //System.out.println("SC10!");
         node.setGoodnessValue(node.getGoodnessValue() -10);
-        node.setTotalGoodnessValue(node.getTotalGoodnessValue()-10);
+        node.setTotalGoodnessValue(node.getParent().getTotalGoodnessValue()-10 + node.getGoodnessValue());
     }
 
     private void sameProjectNotShareRoom(Node node) // SC12
@@ -207,8 +216,9 @@ public class Calculate {
             return;
         if(!(node.getRoom().getPersonOne().getProject() == node.getRoom().getPersonTwo().getProject()))
             return;
+        //System.out.println("SC12!");
         node.setGoodnessValue(node.getGoodnessValue() -7);
-        node.setTotalGoodnessValue(node.getTotalGoodnessValue()-7);
+        node.setTotalGoodnessValue(node.getParent().getTotalGoodnessValue()-7 + node.getGoodnessValue());
     }
 
     private void SC13(Node node) //SC13 - Not sure what's going on here...
@@ -223,8 +233,9 @@ public class Calculate {
         else if(node.getRoom().getPersonTwo() == null)
             return;
         else {
+        	//System.out.println("SC14!");
             node.setGoodnessValue(node.getGoodnessValue() -4);
-            node.setTotalGoodnessValue(node.getTotalGoodnessValue()-4);
+            node.setTotalGoodnessValue(node.getParent().getTotalGoodnessValue()-4 + node.getGoodnessValue());
         }
     }
 
@@ -236,8 +247,9 @@ public class Calculate {
             return;
         if(!(node.getRoom().getPersonOne().getWorksWith().contains(node.getRoom().getPersonTwo()))) // Not sure about logic
             return;
+        //System.out.println("SC15!");
         node.setGoodnessValue(node.getGoodnessValue() -3);
-        node.setTotalGoodnessValue(node.getTotalGoodnessValue()-3);
+        node.setTotalGoodnessValue(node.getParent().getTotalGoodnessValue()-3 + node.getGoodnessValue());
     }
 
     private void dontShareSmallRoom(Node node) // SC16
@@ -249,7 +261,8 @@ public class Calculate {
             if(node.getRoom().getPersonTwo() == null)
                 return;
         }
+        //System.out.println("SC16!");
         node.setGoodnessValue(node.getGoodnessValue() -25);
-        node.setTotalGoodnessValue(node.getTotalGoodnessValue()-25);
+        node.setTotalGoodnessValue(node.getParent().getTotalGoodnessValue()-25 + node.getGoodnessValue());
     }
 }
