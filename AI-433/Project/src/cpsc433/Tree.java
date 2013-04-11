@@ -52,25 +52,30 @@ public class Tree {
     
     public void traverse(Node current, int solutionSize)
     {
+        Calculate calculate = new Calculate();
         int checkVal;
-
-        if(current.getChildNodes().size() == 0)
-        {
+        if(current.getChildNodes().size()==0) {
             if(solution.size() == solutionSize)
                 printStack();
             solution.pop();
             return;
         }
-
-        for(Node n : current.getChildNodes() )
+        else
         {
-            checkVal = genCalcObj.update(n);
-            if(checkVal == 1) {
-                solution.push(n);
-                traverse(n, solutionSize);
+            for(int i = 0; i < current.getChildNodes().size(); i++)
+            {
+
+                checkVal = genCalcObj.update(current.getChildNodes().get(i));
+                current.setVisited(i);
+                solution.push(current.getChildNodes().get(i));
+                if (current.getVisited() == -1 && checkVal == 1) {
+                    traverse(current.getChildNodes().get(i), solutionSize);
+                }
             }
+            printStack();
+
         }
-}
+    }
 
     private void printStack()
     {
