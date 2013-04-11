@@ -62,7 +62,8 @@ public class Solution {
     public void beginSearch()
     {
         buildTree(orTree.head, arrayCopyPerson(), arrayCopyRoom(), 0);
-        orTree.traverse(orTree.head);
+        //System.out.println(orTree.head.getChildNodes());
+        orTree.traverse(orTree.head, personList.size());
     }
 
     /**

@@ -1,6 +1,7 @@
 package cpsc433;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  *
@@ -9,9 +10,12 @@ public class Tree {
     //this is the root node, it will be empty
     Node head = new Node();
     int counting = 0;
-    
+    Stack<Node> solution;
+    Calculate genCalcObj = new Calculate();
+
     public Tree ()
     {
+        solution = new Stack<Node>();
     }
 
     /**
@@ -46,26 +50,31 @@ public class Tree {
         }
     }*/
     
-    public void traverse(Node current)
+    public void traverse(Node current, int solutionSize)
     {
-    	Calculate calculate = new Calculate();
         int checkVal;
-        if(current.getChildNodes().size()==0)
-            return;
-        else
+
+        if(current.getChildNodes().size() == 0)
         {
-        	
-        	for(int i = 0; i < current.getChildNodes().size(); i++)
-        	{
-        		System.out.println(current.getChildNodes().get(i).getPerson().getName());
-//        		System.out.println(current.getChildNodes().get(i).getRoom().getRoomNumber());
-//        		System.out.println(calculate.update(current.getChildNodes().get(i)));
-//        		System.out.println("n " + current.getChildNodes().get(i).getGoodnessValue() + " t " + current.getChildNodes().get(i).getTotalGoodnessValue());
-        	}
-            for(int i = 0; i < current.getChildNodes().size(); i++)
-            {
-                traverse(current.getChildNodes().get(i));
+            if(solution.size() == solutionSize)
+                printStack();
+            solution.pop();
+            return;
+        }
+
+        for(Node n : current.getChildNodes() )
+        {
+            checkVal = genCalcObj.update(n);
+            if(checkVal == 1) {
+                solution.push(n);
+                traverse(n, solutionSize);
             }
         }
+}
+
+    private void printStack()
+    {
+        for(Node n : solution)
+            System.out.println(n.getPerson().getName());
     }
 }
