@@ -6,6 +6,11 @@ package cpsc433;
 public class Calculate {
 
     /**
+     *
+     * ---------------------------------------
+     * Everything commented out fails
+     * ---------------------------------------
+     *
      * Main method to call to get the goodness value
      * return 1 for success
      * return 0 for bad node
@@ -15,28 +20,28 @@ public class Calculate {
      */
     public int update(Node node)
     {
-        groupHeadLargeOffice(node);
-        closeToSecretary(node);
-        managerCloseGroupHead(node);
+//        groupHeadLargeOffice(node);
+//        closeToSecretary(node);
+//        managerCloseGroupHead(node);
 
         if(node.getRoom().getPersonOne()!= null && node.getRoom().getPersonTwo() != null)  {
             smoker(node);
             headsLargeProjectsCloseSecretary(node);
             headsLargeProjectsCloseHeadGroup(node);
         }
-        managerCloseSecretary(node);
-        sameProjectNotShareRoom(node);
-        wantOwnRoom(node);
-        sharingShouldWorkTogether(node);
-        dontShareSmallRoom(node);
+//        managerCloseSecretary(node);
+       sameProjectNotShareRoom(node);
+       wantOwnRoom(node);
+       sharingShouldWorkTogether(node);
+//        dontShareSmallRoom(node);
 
-        if(!calculation(node)|| node.getGoodnessValue() < -200)
-            return 0;
-        else if(node.getParent().getTotalGoodnessValue() < -3000)
+//        if(!calculation(node)|| node.getGoodnessValue() < -200)
+//            return 0;
+        if(node.getParent().getTotalGoodnessValue() < -3000)     //should be else if
             return -1;
         else if(calculation(node)&& node.getGoodnessValue() > -200 &&node.getTotalGoodnessValue() > -3000 )
             return 1;
-        return -2;
+        return 1;
     }
 
     /**

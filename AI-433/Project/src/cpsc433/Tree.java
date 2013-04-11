@@ -58,7 +58,7 @@ public class Tree {
         	for(int i = 0; i < current.getChildNodes().size(); i++)
         	{
         		System.out.println(current.getChildNodes().get(i).getPerson().getName());
-        		System.out.println(current.getChildNodes().get(i).getRoom().getRoomNumber());
+//        		System.out.println(current.getChildNodes().get(i).getRoom().getRoomNumber());
 //        		System.out.println(calculate.update(current.getChildNodes().get(i)));
 //        		System.out.println("n " + current.getChildNodes().get(i).getGoodnessValue() + " t " + current.getChildNodes().get(i).getTotalGoodnessValue());
         	}

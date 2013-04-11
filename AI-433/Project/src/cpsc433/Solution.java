@@ -19,6 +19,8 @@ public class Solution {
     ArrayList<Rooms> mediumRooms;
     ArrayList<Rooms> largeRooms;
 
+    private ArrayList<Person> emptyList = new ArrayList<Person>();
+
     private Tree orTree;
     private Node head;
     private Node tempNode = new Node();
@@ -59,42 +61,54 @@ public class Solution {
 
     public void beginSearch()
     {
-        buildTree(orTree.head, arrayCopy(), arrayCopy2(), 0);
-        orTree.traverse(orTree.head);
-        
+        buildTree(orTree.head, arrayCopyPerson(), arrayCopyRoom(), 0);
+        //orTree.traverse(orTree.head);
     }
 
     /**
-    * This should be a simple linked list for now
+    *
     */
-    private void buildTree(Node current, ArrayList<Person> partialList, ArrayList<Rooms> partialList2, int nodeNum)
+    private void buildTree(Node current, ArrayList<Person> partialPersonList, ArrayList<Rooms> partialRoomList, int nodeNum)
     {
         Node temp;
         int checkVal;
-        if(partialList.size()==0)
+        if(partialPersonList.size()==0)
             return;
         else
         {
-            temp = createTuple(partialList.get(0), partialList2);
+            temp = createTuple(partialPersonList.get(0), partialRoomList);
             orTree.add(current, temp);
-            partialList.remove(nodeNum);
-            partialList2.remove(nodeNum);
-            for(Person p : partialList)
+
+            if (nodeNum<partialPersonList.size())
+                partialPersonList.remove(nodeNum);
+            if(nodeNum<partialRoomList.size())
+                partialRoomList.remove(nodeNum);
+
+            for(Person p : partialPersonList)
             {
-                temp = createTuple(p,partialList2);
-                
+                temp = createTuple(p,partialRoomList);
                 current.setChild(temp);
             }
             for(int i = 0; i < current.getChildNodes().size(); i++)
             {
+                System.out.println(current.getChildNodes().get(i));
                 current.getChildNodes().get(i).setParent(current);
-            	generalCalcObj.update(current.getChildNodes().get(i));
-                buildTree(current.getChildNodes().get(i) , partialList, arrayCopy2(), i);
+            	checkVal = generalCalcObj.update(current.getChildNodes().get(i));
+                System.out.println("Node here");
+                if(checkVal != 1) {
+                    current.getChildNodes().remove(i);
+                    partialPersonList.remove(i);
+                    i--;
+                }
+                else
+                {
+                    buildTree(current.getChildNodes().get(i) , partialPersonList, arrayCopyRoom(), i);
+                }
             }
         }
     }
 
-    private ArrayList<Person> arrayCopy ()
+    private ArrayList<Person> arrayCopyPerson ()
     {
          ArrayList<Person> tempList = new ArrayList<Person>();
         for(Person p : personList)
@@ -102,7 +116,7 @@ public class Solution {
         return tempList;
     }
     
-    private ArrayList<Rooms> arrayCopy2()
+    private ArrayList<Rooms> arrayCopyRoom()
     {
     	ArrayList<Rooms> tempList = new ArrayList<Rooms>();
     	for(Rooms r : roomList){
@@ -114,11 +128,11 @@ public class Solution {
     	return tempList;
     }
 
-    private Node createTuple(Person p, ArrayList<Rooms> partialList)
+    private Node createTuple(Person p, ArrayList<Rooms> partialPersonList)
     {
         Node node = new Node();
         node.setPerson(p);
-        for(Rooms r : partialList)
+        for(Rooms r : partialPersonList)
         {
             if(r.isNotFull())
             {
