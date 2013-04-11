@@ -62,7 +62,7 @@ public class Solution {
     public void beginSearch()
     {
         buildTree(orTree.head, arrayCopyPerson(), arrayCopyRoom(), 0);
-        //orTree.traverse(orTree.head);
+        orTree.traverse(orTree.head);
     }
 
     /**
@@ -79,10 +79,8 @@ public class Solution {
             temp = createTuple(partialPersonList.get(0), partialRoomList);
             orTree.add(current, temp);
 
-            if (nodeNum<partialPersonList.size())
-                partialPersonList.remove(nodeNum);
-            if(nodeNum<partialRoomList.size())
-                partialRoomList.remove(nodeNum);
+            partialPersonList.remove(nodeNum);
+            partialRoomList.remove(nodeNum);
 
             for(Person p : partialPersonList)
             {
@@ -91,13 +89,13 @@ public class Solution {
             }
             for(int i = 0; i < current.getChildNodes().size(); i++)
             {
-                System.out.println(current.getChildNodes().get(i));
                 current.getChildNodes().get(i).setParent(current);
             	checkVal = generalCalcObj.update(current.getChildNodes().get(i));
-                System.out.println("Node here");
+
                 if(checkVal != 1) {
                     current.getChildNodes().remove(i);
-                    partialPersonList.remove(i);
+                    if(partialPersonList.size()>0)
+                        partialPersonList.remove(i);
                     i--;
                 }
                 else

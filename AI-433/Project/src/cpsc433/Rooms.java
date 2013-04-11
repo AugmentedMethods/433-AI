@@ -76,7 +76,7 @@ public class Rooms {
      */
     public boolean oneOccupant()
     {
-        if((personOne == null) != (personTwo == null))
+        if((personOne == null) ^ (personTwo == null))
             return true;
         return false;
     }
