@@ -71,6 +71,7 @@ public class Solution {
     */
     private void buildTree(Node current, ArrayList<Person> partialPersonList, ArrayList<Rooms> partialRoomList, int nodeNum)
     {
+
         Node temp;
         int checkVal;
         if(current != null)
