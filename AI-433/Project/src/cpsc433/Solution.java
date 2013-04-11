@@ -62,8 +62,8 @@ public class Solution {
     public void beginSearch()
     {
         buildTree(orTree.head, arrayCopyPerson(), arrayCopyRoom(), 0);
-        //System.out.println(orTree.head.getChildNodes());
         orTree.traverse(orTree.head, personList.size());
+
     }
 
     /**
@@ -73,6 +73,8 @@ public class Solution {
     {
         Node temp;
         int checkVal;
+        if(current != null)
+            System.out.println();
         if(partialPersonList.size()==0)
             return;
         else
@@ -91,18 +93,16 @@ public class Solution {
             for(int i = 0; i < current.getChildNodes().size(); i++)
             {
                 current.getChildNodes().get(i).setParent(current);
-            	checkVal = generalCalcObj.update(current.getChildNodes().get(i));
+            	//checkVal = generalCalcObj.update(current.getChildNodes().get(i));
+                //if(checkVal != 1) {
+                //    current.getChildNodes().remove(i);
+                //    if(partialPersonList.size()>0)
+                //        partialPersonList.remove(i);
+                //    i--;   //To componsate for the removal
+                //}
+                //else if (checkVal == 1)
+                buildTree(current.getChildNodes().get(i) , partialPersonList, arrayCopyRoom(), i);
 
-                if(checkVal != 1) {
-                    current.getChildNodes().remove(i);
-                    if(partialPersonList.size()>0)
-                        partialPersonList.remove(i);
-                    i--;
-                }
-                else
-                {
-                    buildTree(current.getChildNodes().get(i) , partialPersonList, arrayCopyRoom(), i);
-                }
             }
         }
     }

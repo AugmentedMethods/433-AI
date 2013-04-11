@@ -52,33 +52,30 @@ public class Tree {
     
     public void traverse(Node current, int solutionSize)
     {
-        Calculate calculate = new Calculate();
         int checkVal;
-        if(current.getChildNodes().size()==0) {
-            if(solution.size() == solutionSize)
+
+        if(current.getChildNodes().size() == 0)
+        {
+            //if(solution.size() == solutionSize)
                 printStack();
+            System.out.println("END Recursion");
             solution.pop();
             return;
         }
-        else
+
+        for(Node n : current.getChildNodes() )
         {
-            for(int i = 0; i < current.getChildNodes().size(); i++)
-            {
-
-                checkVal = genCalcObj.update(current.getChildNodes().get(i));
-                current.setVisited(i);
-                solution.push(current.getChildNodes().get(i));
-                if (current.getVisited() == -1 && checkVal == 1) {
-                    traverse(current.getChildNodes().get(i), solutionSize);
-                }
+            checkVal = genCalcObj.update(n);
+            if(checkVal == 1) {
+                solution.push(n);
+                traverse(n, solutionSize);
             }
-            printStack();
-
         }
-    }
+}
 
     private void printStack()
     {
+        //System.out.println(solution.size());
         for(Node n : solution)
             System.out.println(n.getPerson().getName());
     }
