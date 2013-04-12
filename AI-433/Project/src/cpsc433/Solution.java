@@ -24,6 +24,8 @@ public class Solution {
     private Tree orTree;
     private Node head;
     private Node tempNode = new Node();
+    
+
 
     private Calculate generalCalcObj;
 
@@ -38,8 +40,6 @@ public class Solution {
         getSortedData();
         generalCalcObj = new Calculate();
     }
-
-
 
     public void getSortedData()
     {
@@ -61,51 +61,79 @@ public class Solution {
 
     public void beginSearch()
     {
-        buildTree(orTree.head, arrayCopyPerson(), arrayCopyRoom(), 0);
-        orTree.traverse(orTree.head, personList.size());
+        //System.out.println(orTree.head);
+        //printList();
+        buildTree(orTree.head,arrayCopyPerson(), 0);
+        System.out.println(orTree.head.getChildNodes());
+        System.out.println(orTree.head.getChildNodes().get(0).getChildNodes());
+
+        //orTree.traverse(orTree.head, personList.size());
 
     }
 
     /**
     *
     */
-    private void buildTree(Node current, ArrayList<Person> partialPersonList, ArrayList<Rooms> partialRoomList, int nodeNum)
+    private void buildTree(Node current,ArrayList<Person> partialPersonList, int nodeNum)
     {
-
         Node temp;
-        int checkVal;
-        if(current != null)
-            System.out.println();
-        if(partialPersonList.size()==0)
-            return;
-        else
-        {
-            temp = createTuple(partialPersonList.get(0), partialRoomList);
-            orTree.add(current, temp);
 
-            partialPersonList.remove(nodeNum);
-            partialRoomList.remove(nodeNum);
-
+        if(nodeNum < 1){
             for(Person p : partialPersonList)
             {
-                temp = createTuple(p,partialRoomList);
+                temp = createNode();
+                temp.setPerson(p);
                 current.setChild(temp);
             }
-            for(int i = 0; i < current.getChildNodes().size(); i++)
-            {
-                current.getChildNodes().get(i).setParent(current);
-            	//checkVal = generalCalcObj.update(current.getChildNodes().get(i));
-                //if(checkVal != 1) {
-                //    current.getChildNodes().remove(i);
-                //    if(partialPersonList.size()>0)
-                //        partialPersonList.remove(i);
-                //    i--;   //To componsate for the removal
-                //}
-                //else if (checkVal == 1)
-                buildTree(current.getChildNodes().get(i) , partialPersonList, arrayCopyRoom(), i);
-
-            }
+            buildTree(current.getChildNodes().get(0), partialPersonList, 1);
         }
+
+
+
+
+//        Node temp;
+//        int checkVal;
+//        //if(currentNode != null && currentNode.getPerson()!= null)
+//            //System.out.println(currentNode.getPerson().getName());
+//        if(partialPersonList.size()==0)
+//        {
+//            System.out.println("End of a branch");
+//            return;
+//        }
+//        else
+//        {
+//            temp = createTuple(partialPersonList.get(0), partialRoomList);
+//            orTree.add(currentNode, temp);
+//
+//            partialPersonList.remove(nodeNum);
+//            partialRoomList.remove(nodeNum);
+//
+//            for(Person p : partialPersonList)
+//            {
+//                temp = createTuple(p,partialRoomList);
+//                currentNode.setChild(temp);
+//            }
+//            for(int i = 0; i < currentNode.getChildNodes().size(); i++)
+//            {
+//                currentNode.getChildNodes().get(i).setParent(currentNode);
+//            	//checkVal = generalCalcObj.update(currentNode.getChildNodes().get(i));
+//                //if(checkVal != 1) {
+//                //    currentNode.getChildNodes().remove(i);
+//                //    if(partialPersonList.size()>0)
+//                //        partialPersonList.remove(i);
+//                //    i--;   //To componsate for the removal
+//                //}
+//                //else if (checkVal == 1)
+//                buildTree(currentNode.getChildNodes().get(i) , partialPersonList, arrayCopyRoom(), i);
+//
+//            }
+//        }
+    }
+
+    private Node createNode()
+    {
+        Node newNode = new Node();
+        return newNode;
     }
 
     private ArrayList<Person> arrayCopyPerson ()
@@ -145,5 +173,11 @@ public class Solution {
             }
         }
         return node;
+    }
+
+    private void printList()
+    {
+        for(Person p : personList)
+            System.out.println(p.getName());
     }
 }
