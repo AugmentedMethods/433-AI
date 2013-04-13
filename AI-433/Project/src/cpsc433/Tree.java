@@ -34,7 +34,11 @@ public class Tree {
         return current.getChildNodes();
     }
 
-
+    /**
+     * This will traveres each branch, the stack will indicate a branch,
+     * @param current
+     * @param solutionSize
+     */
     public void traverse(Node current, int solutionSize)
     {
         if(current.getChildNodes().size()==0)

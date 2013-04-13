@@ -97,6 +97,4 @@ public class Node {
     public void setParent(Node parent) {
         Parent = parent;
     }
-
-
 }
