@@ -37,28 +37,21 @@ public class Tree {
 
     public void traverse(Node current, int solutionSize)
     {
-        int checkVal;
-        System.out.println("Here");
-        System.out.println(current.getChildNodes().get(1).getChildNodes().size());
-        System.out.println("!Here");
-//
-//        if(current.getChildNodes().size() == 0)
-//        {
-//            //if(solution.size() == solutionSize)
-//                printStack();
-//            System.out.println("END Recursion");
-//            solution.pop();
-//            return;
-//        }
-//
-//        for(Node n : current.getChildNodes() )
-//        {
-//            //checkVal = genCalcObj.update(n);
-//            //if(checkVal == 1) {
-//            solution.push(n);
-//            traverse(n, solutionSize);
-//            //}
-//        }
+        if(current.getChildNodes().size()==0)
+        {
+            printStack();
+            System.out.println("END Recursion");
+            solution.pop();
+            return;
+        }
+
+        for(Node n : current.getChildNodes() )
+        {
+            solution.push(n);
+            traverse(n, solutionSize);
+        }
+        if(solution.size()>0)
+            solution.pop();
 }
 
     private void printStack()

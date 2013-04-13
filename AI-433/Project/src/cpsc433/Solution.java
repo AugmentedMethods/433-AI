@@ -19,12 +19,10 @@ public class Solution {
     ArrayList<Rooms> mediumRooms;
     ArrayList<Rooms> largeRooms;
 
-    private ArrayList<Person> emptyList = new ArrayList<Person>();
+    private ArrayList<Node> emptyList = new ArrayList<Node>();
 
     private Tree orTree;
-    private Node head;
-    private Node tempNode = new Node();
-    
+
 
 
     private Calculate generalCalcObj;
@@ -36,8 +34,7 @@ public class Solution {
         this.personList = personList;
         this.roomList = roomList;
         orTree = new Tree();
-        head = new Node();
-        getSortedData();
+        //getSortedData();
         generalCalcObj = new Calculate();
     }
 
@@ -63,11 +60,18 @@ public class Solution {
     {
         //System.out.println(orTree.head);
         //printList();
-        buildTree(orTree.head,arrayCopyPerson(), 0);
-        System.out.println(orTree.head.getChildNodes());
-        System.out.println(orTree.head.getChildNodes().get(0).getChildNodes());
 
-        //orTree.traverse(orTree.head, personList.size());
+        //buildTree(emptyList.get(0),arrayCopyPerson(), 0);
+
+
+        buildTree(orTree.head,arrayCopyPerson(-1, personList),0);
+        //System.out.println();
+        //System.out.println(orTree.head.getChildNodes().get(0).getChildNodes().get(0).getChildNodes().get(0).getChildNodes().size());//.get(0).getChildNodes().get(0).getChildNodes().get(0));
+        //System.out.println(orTree.head.getChildNodes().get(1)+": "+orTree.head.getChildNodes().get(1).getPerson().getName());
+        //System.out.println(orTree.head.getChildNodes().get(2)+": "+orTree.head.getChildNodes().get(2).getPerson().getName());
+        //System.out.println(orTree.head.getChildNodes().get(0).getChildNodes());
+
+        orTree.traverse(orTree.head, personList.size());
 
     }
 
@@ -76,18 +80,32 @@ public class Solution {
     */
     private void buildTree(Node current,ArrayList<Person> partialPersonList, int nodeNum)
     {
-        Node temp;
-
-        if(nodeNum < 1){
-            for(Person p : partialPersonList)
-            {
-                temp = createNode();
-                temp.setPerson(p);
-                current.setChild(temp);
-            }
-            buildTree(current.getChildNodes().get(0), partialPersonList, 1);
+        Node temp =null;
+        //System.out.println(current.getPerson());
+        if(current.getPerson() != null && 0 < partialPersonList.size())
+        {
+            partialPersonList = arrayCopyPerson(nodeNum, partialPersonList);
         }
 
+
+        //System.out.println();
+        //printList(partialPersonList);
+
+        if(partialPersonList.size() == 0)
+            return;
+        for(Person p : partialPersonList)
+        {
+            temp = createNode();
+            temp.setPerson(p);
+            orTree.add(current,temp);
+        }
+
+        for(int i =0 ; i < orTree.getChildren(current).size();i++ )
+        {
+            //System.out.println(current + " " + orTree.getChildren(current));
+            //System.out.println(orTree.getChildren(current).get(i)+": "+orTree.getChildren(current).get(i).getPerson().getName());
+            buildTree(orTree.getChildren(current).get(i), partialPersonList, i);
+        }
 
 
 
@@ -136,14 +154,23 @@ public class Solution {
         return newNode;
     }
 
-    private ArrayList<Person> arrayCopyPerson ()
+    private ArrayList<Person> arrayCopyPerson (int skip, ArrayList<Person> pList)
     {
-         ArrayList<Person> tempList = new ArrayList<Person>();
-        for(Person p : personList)
-            tempList.add(p);
+
+        ArrayList<Person> tempList = new ArrayList<Person>();
+        if(skip == -1){
+            for(Person p : personList)
+                tempList.add(p);
+            return tempList;
+        }
+        for(int i = 0; i < pList.size(); i++)
+        {
+            if(i != skip)
+                tempList.add(pList.get(i));
+        }
         return tempList;
     }
-    
+
     private ArrayList<Rooms> arrayCopyRoom()
     {
     	ArrayList<Rooms> tempList = new ArrayList<Rooms>();
@@ -175,9 +202,10 @@ public class Solution {
         return node;
     }
 
-    private void printList()
+    private void printList(ArrayList<Person> pList)
     {
-        for(Person p : personList)
+        for(Person p : pList){
             System.out.println(p.getName());
+        }
     }
 }
