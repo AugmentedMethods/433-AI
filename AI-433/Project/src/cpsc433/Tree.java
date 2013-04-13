@@ -43,10 +43,10 @@ public class Tree {
     {
         if(current.getChildNodes().size()==0)
         {
-            if(solution.size() == solutionSize)
+            //if(solution.size() == solutionSize)
                 printStack();
 
-            System.out.println("END Recursion, Stack size: "+ solution.size() +"Needs to be" + solutionSize);
+            System.out.println("END Recursion, Stack size: "+ solution.size() +" Needs to be" + solutionSize);
             solution.pop();
             return;
         }
@@ -63,8 +63,12 @@ public class Tree {
     private void printStack()
     {
         //System.out.println(solution.size());
-        for(Node n : solution)
+        for(Node n : solution){
+            //System.out.println("Name: "+ n.getPerson() + "Room: "+ n.getRoom());
+
             System.out.println("Name: "+n.getPerson().getName() + ", Room: " + n.getRoom().getRoomNumber());
+
+        }
         System.out.println(solution.lastElement().getTotalGoodnessValue());
     }
 }

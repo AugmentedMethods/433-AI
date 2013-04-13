@@ -25,6 +25,7 @@ public class Calculate {
 
         if(!hardConstrainCheck(node))
             return 0;
+
         groupHeadLargeOffice(node);
         closeToSecretary(node);
         managerCloseGroupHead(node);
@@ -34,6 +35,7 @@ public class Calculate {
             headsLargeProjectsCloseSecretary(node);
             headsLargeProjectsCloseHeadGroup(node);
         }
+
         managerCloseSecretary(node);
         sameProjectNotShareRoom(node);
         wantOwnRoom(node);

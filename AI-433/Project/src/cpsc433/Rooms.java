@@ -19,6 +19,23 @@ public class Rooms {
     ArrayList<Rooms> closeRooms = new ArrayList<Rooms>(); //will hold a list of rooms close to the current
     //one
 
+    public Rooms copyRoom(Rooms r)
+    {
+        Rooms temp = new Rooms(r.getRoomNumber());
+        temp.size = r.getSize();
+        temp.personOne = r.getPersonOne();
+        temp.personTwo= r.getPersonTwo();
+        if(r.isSmall())
+            temp.small = true;
+        else if (r.isMedium())
+            temp.medium = true;
+        else if (r.isLarge())
+            temp.large = true;
+
+        temp.closeRooms = r.getClose();
+        return temp;
+    }
+
     public Rooms (String number) {
         this.roomNumber = number;
         size = "nuul";
@@ -112,4 +129,5 @@ public class Rooms {
     public void setMedium(boolean medium) {
         this.medium = medium;
     }
-}
+
+ }

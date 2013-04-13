@@ -21,8 +21,6 @@ public class Solution {
     ArrayList<Rooms> emptyRoomList;
     private Tree orTree;
 
-
-
     private Calculate generalCalcObj;
 
     public Solution (ArrayList<Person> personList, ArrayList<Rooms> roomList)
@@ -55,8 +53,13 @@ public class Solution {
 
     public void beginSearch()
     {
+//        for(Rooms r:roomList)
+//            System.out.println(r.getRoomNumber());
+//        for(Person p : personList )
+//            System.out.println(p.getName());
+
         buildTree(orTree.head,arrayCopyPerson(-1, personList), arrayCopyRoom(-1, roomList),0);
-        orTree.traverse(orTree.head, personList.size());
+        //orTree.traverse(orTree.head, personList.size());
     }
 
     /**
@@ -78,26 +81,35 @@ public class Solution {
          * This if statement controls the recursion, if the node fails the test then that branch is ended
          * THis will also update the partial list that the node will see, see the method defintions for more detail.
          */
+
         if(current.getPerson() != null && 0 < partialPersonList.size())
         {
             partialPersonList = arrayCopyPerson(nodeNum, partialPersonList);
             //create paring here
-            current = createTuple(current,partialRoomList);
-            checkVal=generalCalcObj.update(current) ;
 
-            if(checkVal != 1)
-                return;
+            current = createTuple(current,partialRoomList);
+
+
+//            checkVal=generalCalcObj.update(current) ;
+//
+//            if(checkVal != 1)
+//                return;
+
             partialRoomList = arrayCopyRoom(1, partialRoomList);
+
         }
         /**
          * Second recursion control
          */
         if(partialPersonList.size() == 0 || partialRoomList.size() == 0)
+        {
             return;
+        }
         /**
          * Spawn all the possible child nodes (a child node of every person not yet
          * in the tree branch)
          */
+
         for(Person p : partialPersonList)
         {
             temp = createNode();
@@ -105,12 +117,12 @@ public class Solution {
             orTree.add(current,temp);
         }
 
+
         /**
          * Cycle through every child and do the above recursion.
          */
         for(int i =0 ; i < orTree.getChildren(current).size();i++ )
         {
-
             orTree.getChildren(current).get(i).setParent(current);
             buildTree(orTree.getChildren(current).get(i), partialPersonList, partialRoomList, i);
         }
@@ -160,19 +172,21 @@ public class Solution {
      */
     private ArrayList<Rooms> arrayCopyRoom (int skip,ArrayList<Rooms> rList)
     {   ArrayList<Rooms> tempList = new ArrayList<Rooms>();
+
         int check;
         if(skip == -1)
         {
             for(Rooms r : roomList)
-                tempList.add(r);
+                tempList.add(r.copyRoom(r));
             return tempList;
         }
         for(int i = 0; i < rList.size(); i++)
         {
             //check bellow for details
             check = skipConditions(rList.get(i));
+
             if(check == 1)
-                tempList.add((rList.get(i)));
+                tempList.add((rList.get(i).copyRoom(rList.get(i))));
             if(check == -1)
                 return emptyRoomList;
         }
@@ -181,7 +195,7 @@ public class Solution {
     }
 
     /**
-     * This method controls where a room can still be used or not.
+     * This method controls whether a room can still be used or not.
      * Please check that I have not missed any possible reason why a room would be full
      * or could not be used
      * Also check that they are all valid, if one is wrong here, it will destroy our results
@@ -217,21 +231,24 @@ public class Solution {
     private Node createTuple(Node current,ArrayList<Rooms> partialRoomList)
     {
         //System.out.println(partialRoomList.size());
+
         for(Rooms r : partialRoomList)   {
             if (r.getPersonOne() == null)
             {
-                current.setRoom(r);
+                current.setRoom(r.copyRoom(r));
                 r.setPersonOne(current.getPerson());
                 return current;
             }
             else if(r.getPersonTwo() == null)
             {
-                current.setRoom(r);
+                current.setRoom(r.copyRoom(r));
                 r.setPersonTwo(current.getPerson());
                 return current;
             }
         }
-
+        System.out.println(current.getPerson().getName());
+        System.out.println(current.getRoom());
+        System.out.println(partialRoomList.get(0).getPersonTwo());
         return null;//failure
     }
 
