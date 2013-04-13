@@ -58,20 +58,12 @@ public class Solution {
 
     public void beginSearch()
     {
-        //System.out.println(orTree.head);
-        //printList();
-
-        //buildTree(emptyList.get(0),arrayCopyPerson(), 0);
-
-
+        for(Person p : personList)
+                System.out.println(p.getName());
         buildTree(orTree.head,arrayCopyPerson(-1, personList),0);
-        //System.out.println();
-        //System.out.println(orTree.head.getChildNodes().get(0).getChildNodes().get(0).getChildNodes().get(0).getChildNodes().size());//.get(0).getChildNodes().get(0).getChildNodes().get(0));
-        //System.out.println(orTree.head.getChildNodes().get(1)+": "+orTree.head.getChildNodes().get(1).getPerson().getName());
-        //System.out.println(orTree.head.getChildNodes().get(2)+": "+orTree.head.getChildNodes().get(2).getPerson().getName());
-        //System.out.println(orTree.head.getChildNodes().get(0).getChildNodes());
 
         orTree.traverse(orTree.head, personList.size());
+
 
     }
 
@@ -81,15 +73,11 @@ public class Solution {
     private void buildTree(Node current,ArrayList<Person> partialPersonList, int nodeNum)
     {
         Node temp =null;
-        //System.out.println(current.getPerson());
         if(current.getPerson() != null && 0 < partialPersonList.size())
         {
             partialPersonList = arrayCopyPerson(nodeNum, partialPersonList);
         }
 
-
-        //System.out.println();
-        //printList(partialPersonList);
 
         if(partialPersonList.size() == 0)
             return;
@@ -102,8 +90,6 @@ public class Solution {
 
         for(int i =0 ; i < orTree.getChildren(current).size();i++ )
         {
-            //System.out.println(current + " " + orTree.getChildren(current));
-            //System.out.println(orTree.getChildren(current).get(i)+": "+orTree.getChildren(current).get(i).getPerson().getName());
             buildTree(orTree.getChildren(current).get(i), partialPersonList, i);
         }
 
