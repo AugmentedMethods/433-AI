@@ -9,10 +9,6 @@ import java.util.ArrayList;
 public class Rooms {
     private String roomNumber;
     private String size;
-
-    private boolean full;
-    private boolean notFull;  //this is probably redundant
-
     private Person personOne;
     private Person personTwo;
 
@@ -26,8 +22,6 @@ public class Rooms {
     public Rooms (String number) {
         this.roomNumber = number;
         size = "nuul";
-        full = false;
-        notFull = false;
         closeRooms = new ArrayList<Rooms>();
         small = false;
         medium = false;
@@ -44,32 +38,6 @@ public class Rooms {
         this.roomNumber = roomNumber;
     }
 
-    public boolean isFull() {
-        return full;
-    }
-
-    public void setFull(boolean full) {
-        this.full = full;
-    }
-
-    /**
-     * has atleast one occupant
-     * @return
-     */
-    public boolean isNotFull() {
-        if(personOne == null || personTwo == null)
-        {
-            notFull = true;
-            return notFull;
-        }
-        else
-        {
-            notFull = true;
-            return false;
-        }
-
-    }
-
     /**
      * This needs to be tested (could cause a bug)
      * @return
@@ -79,10 +47,6 @@ public class Rooms {
         if((personOne == null) ^ (personTwo == null))
             return true;
         return false;
-    }
-
-    public void setNotFull(boolean notFull) {
-        this.notFull = notFull;
     }
 
     public void addToClose(Rooms rm){

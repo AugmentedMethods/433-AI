@@ -149,6 +149,12 @@ public class Person {
         return isHacker;
     }
 
+    public boolean needsSeperateRoom() {
+        if(this.isManager || this.headsGroup || this.headsProject)
+            return true;
+        return false;
+    }
+
 
 }
 

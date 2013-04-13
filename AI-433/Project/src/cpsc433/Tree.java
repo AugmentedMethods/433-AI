@@ -39,8 +39,9 @@ public class Tree {
     {
         if(current.getChildNodes().size()==0)
         {
-            printStack();
-            System.out.println("END Recursion");
+            if(solution.size() == solutionSize)
+                printStack();
+            System.out.println("END Recursion, Stack size: "+ solution.size() +"Needs to be" + solutionSize);
             solution.pop();
             return;
         }
