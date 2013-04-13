@@ -58,8 +58,7 @@ public class Solution {
 //        for(Person p : personList)
 //                System.out.println(p.getName());
         buildTree(orTree.head,arrayCopyPerson(-1, personList), arrayCopyRoom(-1, roomList),0);
-
-        //orTree.traverse(orTree.head, personList.size());
+        orTree.traverse(orTree.head, personList.size());
 
 
     }
@@ -77,8 +76,9 @@ public class Solution {
             //create paring here
             current = createTuple(current,partialRoomList);
             checkVal=generalCalcObj.update(current) ;
-            //if(checkVal != 1)
-            //    return;
+
+            if(checkVal != 1)
+                return;
             partialRoomList = arrayCopyRoom(1, partialRoomList);
         }
 

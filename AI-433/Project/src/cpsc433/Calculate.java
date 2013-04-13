@@ -20,13 +20,11 @@ public class Calculate {
      */
     public int update(Node node)
     {
-        System.out.println();
-        if(node.getPerson()== null)
+        if(node == null ||node.getPerson()== null)
             return 1;
 
-        if(hardConstrainCheck(node))
+        if(!hardConstrainCheck(node))
             return 0;
-
         groupHeadLargeOffice(node);
         closeToSecretary(node);
         managerCloseGroupHead(node);

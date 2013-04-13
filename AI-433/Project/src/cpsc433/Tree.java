@@ -41,6 +41,7 @@ public class Tree {
         {
             if(solution.size() == solutionSize)
                 printStack();
+
             System.out.println("END Recursion, Stack size: "+ solution.size() +"Needs to be" + solutionSize);
             solution.pop();
             return;
@@ -60,5 +61,6 @@ public class Tree {
         //System.out.println(solution.size());
         for(Node n : solution)
             System.out.println(n.getPerson().getName());
+        System.out.println(solution.lastElement().getTotalGoodnessValue());
     }
 }
