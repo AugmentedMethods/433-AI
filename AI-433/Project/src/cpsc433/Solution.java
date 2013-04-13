@@ -159,6 +159,8 @@ public class Solution {
              return 0;
         if(r.getPersonOne() != null && r.getPersonTwo() != null)
             return 0;
+        if(r.isSmall()&& (r.getPersonTwo() != null || r.getPersonOne() != null))
+            return 0;
         if(r.getPersonOne() == null || r.getPersonTwo() == null)
             return 1;
 
