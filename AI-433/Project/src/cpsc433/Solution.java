@@ -61,6 +61,7 @@ public class Solution {
 //            System.out.println(r.getRoomNumber());
         buildTree(orTree.head,arrayCopyPerson(-1, personList), arrayCopyRoom(roomList),0);
         orTree.traverse(orTree.head, personList.size());
+        orTree.printStack();
 
         System.out.println("Nothing...");
     }
@@ -198,7 +199,7 @@ public class Solution {
             }
             else if(r.getPersonTwo() == null) {
                 temp = r.copyRoom(r);
-                temp.setPersonOne(current.getPerson());
+                temp.setPersonTwo(current.getPerson());
                 current.setRoom(temp);
                 return current;
             }
