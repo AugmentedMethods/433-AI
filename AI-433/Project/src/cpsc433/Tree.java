@@ -11,11 +11,14 @@ public class Tree {
     Node head;
     int counting = 0;
     Stack<Node> solution;
+    Stack<Node> finalSolution;
+    int solutionGoodness = - 5000;
 
     public Tree ()
     {
         head = new Node();
         solution = new Stack<Node>();
+        finalSolution = new Stack<Node>();
     }
 
     /**
@@ -42,9 +45,14 @@ public class Tree {
     {
         if(current.getChildNodes().size()==0)
         {
-            if(solution.size() == solutionSize)
-                printStack();
-
+            if(solution.size() == solutionSize) {
+               // printStack();
+                if(solutionGoodness < solution.get(solution.size()-2).getTotalGoodnessValue()){
+                    for(Node n : solution)
+                        finalSolution.push(n);
+                    solutionGoodness = solution.lastElement().getTotalGoodnessValue();
+                }
+            }
             //System.out.println("END Recursion, Stack size: "+ solution.size() +" Needs to be" + solutionSize);
             solution.pop();
             return;
@@ -57,16 +65,16 @@ public class Tree {
         }
         if(solution.size()>0)
             solution.pop();
-}
+    }
 
-    private void printStack()
+    public void printStack()
     {
         //System.out.println(solution.size());
-        for(Node n : solution){
+        for(Node n : finalSolution){
 
             if(n.getRoom()!= null)
                 System.out.println("Name: "+ n.getPerson().getName() + " Room: "+ n.getRoom().getRoomNumber());
         }
-        System.out.println(solution.lastElement().getTotalGoodnessValue());
+        System.out.println(finalSolution.get(finalSolution.size()-2).getTotalGoodnessValue());
     }
 }
