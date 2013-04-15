@@ -63,7 +63,9 @@ public class Tree {
     {
         //System.out.println(solution.size());
         for(Node n : solution){
-            System.out.println("Name: "+ n.getPerson().getName() + " Room: "+ n.getRoom().getRoomNumber());
+
+            if(n.getRoom()!= null)
+                System.out.println("Name: "+ n.getPerson().getName() + " Room: "+ n.getRoom().getRoomNumber());
         }
         System.out.println(solution.lastElement().getTotalGoodnessValue());
     }

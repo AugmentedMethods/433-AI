@@ -32,7 +32,7 @@ public class Solution {
         emptyRoomList = new ArrayList<Rooms>();
         this.startTime = startTime;
         orTree = new Tree();
-        generalCalcObj = new Calculate(3000, 200);
+        generalCalcObj = new Calculate(500000, 500);
     }
 
     public void getSortedData()
@@ -61,6 +61,8 @@ public class Solution {
 //            System.out.println(r.getRoomNumber());
         buildTree(orTree.head,arrayCopyPerson(-1, personList), arrayCopyRoom(roomList),0);
         orTree.traverse(orTree.head, personList.size());
+
+        System.out.println("Nothing...");
     }
 
     /**
@@ -112,10 +114,6 @@ public class Solution {
         }
     }
 
-    /**
-     * This could probably be added else where, is a little old
-     * @return
-     */
     private Node createNode()
     {
         Node newNode = new Node();
