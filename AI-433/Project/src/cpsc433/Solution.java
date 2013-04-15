@@ -1,5 +1,6 @@
 package cpsc433;
 
+import javax.swing.tree.RowMapper;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +22,8 @@ public class Solution {
     ArrayList<Rooms> emptyRoomList;
     private Tree orTree;
 
+    ArrayList<Rooms> savedList;
+
     private Calculate generalCalcObj;
 
     public Solution (ArrayList<Person> personList, ArrayList<Rooms> roomList)
@@ -29,7 +32,6 @@ public class Solution {
         this.roomList = roomList;
         emptyRoomList = new ArrayList<Rooms>();
         orTree = new Tree();
-        //getSortedData();
         generalCalcObj = new Calculate();
     }
 
@@ -53,12 +55,11 @@ public class Solution {
 
     public void beginSearch()
     {
+//        for(Person p : personList)
+//                System.out.println(p.getName());
 //        for(Rooms r:roomList)
 //            System.out.println(r.getRoomNumber());
-//        for(Person p : personList )
-//            System.out.println(p.getName());
-
-        buildTree(orTree.head,arrayCopyPerson(-1, personList), arrayCopyRoom(-1, roomList),0);
+        buildTree(orTree.head,arrayCopyPerson(-1, personList), arrayCopyRoom(roomList),0);
         //orTree.traverse(orTree.head, personList.size());
     }
 
@@ -77,50 +78,28 @@ public class Solution {
     {
         Node temp =null;
         int checkVal;
-        /**
-         * This if statement controls the recursion, if the node fails the test then that branch is ended
-         * THis will also update the partial list that the node will see, see the method defintions for more detail.
-         */
 
         if(current.getPerson() != null && 0 < partialPersonList.size())
         {
             partialPersonList = arrayCopyPerson(nodeNum, partialPersonList);
-            //create paring here
 
-            current = createTuple(current,partialRoomList);
+            current = pickRoom(current, partialRoomList);
+            partialRoomList = setRoomData(current,partialRoomList);
+            partialRoomList =roomRemove(current, partialRoomList);
 
-
-//            checkVal=generalCalcObj.update(current) ;
-//
-//            if(checkVal != 1)
-//                return;
-
-            partialRoomList = arrayCopyRoom(1, partialRoomList);
-
+            System.out.println("Name: " + current.getPerson().getName() + ", Room:" + current.getRoom().getRoomNumber() +"\n");
+            savedList = partialRoomList;
         }
-        /**
-         * Second recursion control
-         */
-        if(partialPersonList.size() == 0 || partialRoomList.size() == 0)
+        if(partialPersonList.size() == 0)
         {
             return;
         }
-        /**
-         * Spawn all the possible child nodes (a child node of every person not yet
-         * in the tree branch)
-         */
-
         for(Person p : partialPersonList)
         {
             temp = createNode();
             temp.setPerson(p);
             orTree.add(current,temp);
         }
-
-
-        /**
-         * Cycle through every child and do the above recursion.
-         */
         for(int i =0 ; i < orTree.getChildren(current).size();i++ )
         {
             orTree.getChildren(current).get(i).setParent(current);
@@ -170,29 +149,89 @@ public class Solution {
      * @param rList - The old room list
      * @return - The new room list
      */
-    private ArrayList<Rooms> arrayCopyRoom (int skip,ArrayList<Rooms> rList)
-    {   ArrayList<Rooms> tempList = new ArrayList<Rooms>();
+    private ArrayList<Rooms> arrayCopyRoom (ArrayList<Rooms> rList)
+    {
+        ArrayList<Rooms> tempList = new ArrayList<Rooms>();
 
-        int check;
-        if(skip == -1)
-        {
-            for(Rooms r : roomList)
-                tempList.add(r.copyRoom(r));
-            return tempList;
-        }
-        for(int i = 0; i < rList.size(); i++)
-        {
-            //check bellow for details
-            check = skipConditions(rList.get(i));
-
-            if(check == 1)
-                tempList.add((rList.get(i).copyRoom(rList.get(i))));
-            if(check == -1)
-                return emptyRoomList;
-        }
+        for(Rooms r : roomList)
+            tempList.add(r.copyRoom(r));
         return tempList;
-
     }
+
+    private ArrayList<Rooms> roomRemove (Node current, ArrayList<Rooms> rList)
+    {
+
+        ArrayList<Rooms> tempList = new ArrayList<Rooms>();
+        boolean check;
+        for(Rooms r : rList)  {
+            //System.out.println(r.getPersonOne());
+            check = r.getRoomNumber().equals(current.getRoom().getRoomNumber());
+            if((check && (current.getRoom().getPersonOne() == null || current.getRoom().getPersonTwo() == null)) || !check)
+                tempList.add(r.copyRoom(r));
+        }
+
+        return tempList;
+    }
+
+    /**
+     * This is where are a lot of the changes will be needed!
+     * @param current - Current node
+     * @param partialRoomList
+     * @return - Null if it fails, otherwise the node.
+     */
+    private Node pickRoom(Node current,ArrayList<Rooms> partialRoomList)
+    {
+        Rooms temp;
+//        System.out.println(partialRoomList.get(0).getPersonOne());
+//        if(partialRoomList.get(0).getPersonOne() != null)
+//            System.out.println(partialRoomList.get(0).getPersonOne().getName());
+        System.out.println(partialRoomList.size());
+        for(Rooms r : partialRoomList){
+
+            if(r.getPersonOne() == null) {
+                temp = r.copyRoom(r);
+                temp.setPersonOne(current.getPerson());
+
+                current.setRoom(temp);
+
+                return current;
+            }
+            else if(r.getPersonTwo() == null) {
+                temp = r.copyRoom(r);
+                temp.setPersonOne(current.getPerson());
+                current.setRoom(temp);
+                return current;
+            }
+        }
+        return current;
+    }
+
+    private ArrayList<Rooms> setRoomData(Node current, ArrayList<Rooms> rList)
+    {
+        ArrayList<Rooms> temp = new ArrayList<Rooms>();
+        for(int i = 0 ; i < rList.size() ; i++)
+        {
+            temp.add(rList.get(i).copyRoom(rList.get(i)));
+            if(rList.get(i).getRoomNumber().equals(current.getRoom().getRoomNumber()) && temp.get(i).getPersonOne() == null )
+            {
+                temp.get(i).setPersonOne(current.getPerson());
+            }
+            else if(rList.get(i).getRoomNumber().equals(current.getRoom().getRoomNumber()) && temp.get(i).getPersonTwo() == null )
+            {
+                temp.get(i).setPersonTwo(current.getPerson());
+            }
+        }
+            return temp;
+    }
+
+
+
+
+
+
+
+
+
 
     /**
      * This method controls whether a room can still be used or not.
@@ -207,10 +246,10 @@ public class Solution {
     {
         if(r.getPersonOne() != null && r.getPersonTwo() != null && (r.getPersonOne().needsSeperateRoom() || r.getPersonTwo().needsSeperateRoom()))
             return -1;
-         if(r.getPersonOne() != null && r.getPersonOne().needsSeperateRoom())
-             return 0;
-         if(r.getPersonTwo() != null && r.getPersonTwo().needsSeperateRoom())
-             return 0;
+        if(r.getPersonOne() != null && r.getPersonOne().needsSeperateRoom())
+            return 0;
+        if(r.getPersonTwo() != null && r.getPersonTwo().needsSeperateRoom())
+            return 0;
         if(r.getPersonOne() != null && r.getPersonTwo() != null)
             return 0;
         if(r.isSmall()&& (r.getPersonTwo() != null || r.getPersonOne() != null))
@@ -221,37 +260,6 @@ public class Solution {
         return 0;
 
     }
-
-    /**
-     * This is where are a lot of the changes will be needed!
-     * @param current - Current node
-     * @param partialRoomList
-     * @return - Null if it fails, otherwise the node.
-     */
-    private Node createTuple(Node current,ArrayList<Rooms> partialRoomList)
-    {
-        //System.out.println(partialRoomList.size());
-
-        for(Rooms r : partialRoomList)   {
-            if (r.getPersonOne() == null)
-            {
-                current.setRoom(r.copyRoom(r));
-                r.setPersonOne(current.getPerson());
-                return current;
-            }
-            else if(r.getPersonTwo() == null)
-            {
-                current.setRoom(r.copyRoom(r));
-                r.setPersonTwo(current.getPerson());
-                return current;
-            }
-        }
-        System.out.println(current.getPerson().getName());
-        System.out.println(current.getRoom());
-        System.out.println(partialRoomList.get(0).getPersonTwo());
-        return null;//failure
-    }
-
     private void printList(ArrayList<Person> pList)
     {
         for(Person p : pList){

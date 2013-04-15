@@ -12,7 +12,6 @@ public class Person {
 
     private String name;
     private boolean smoker;
-    private Rooms currentRoom;
     private String position;
     private boolean isHacker;
     private boolean headsGroup;
@@ -28,7 +27,6 @@ public class Person {
         worksWith = new ArrayList<Person>();
         name ="";
         smoker = false;
-        currentRoom = null;
         position = "";
         isHacker = false;
         headsGroup = false;
@@ -42,7 +40,6 @@ public class Person {
         this.name = name;
         worksWith = new ArrayList<Person>();
         smoker = false;
-        currentRoom = null;
         position = "";
         isHacker = false;
         headsGroup = false;
@@ -116,10 +113,6 @@ public class Person {
         return smoker;
     }
 
-    public Rooms getCurrentRoom() {
-        return currentRoom;
-    }
-
     public String getPosition() {
         return position;
     }
@@ -130,10 +123,6 @@ public class Person {
 
     public void setSmoker(boolean smoker) {
         this.smoker = smoker;
-    }
-
-    public void setCurrentRoom(Rooms currentRoom) {
-        this.currentRoom = currentRoom;
     }
 
     public void setPosition(String position) {
