@@ -43,7 +43,8 @@ public class SisyphusI {
         final String out = fromFile+".out";
         try {
             PrintStream outFile = new PrintStream(new FileOutputStream(out));
-            enviro.printvector(outFile);
+           // enviro.printvector(outFile);
+            testSol.print(outFile);
             outFile.close();
         }
         catch (Exception ex) {}
