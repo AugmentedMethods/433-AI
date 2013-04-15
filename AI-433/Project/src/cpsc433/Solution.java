@@ -1,6 +1,7 @@
 package cpsc433;
 
 import javax.swing.tree.RowMapper;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 /**
@@ -61,7 +62,7 @@ public class Solution {
 //            System.out.println(r.getRoomNumber());
         buildTree(orTree.head,arrayCopyPerson(-1, personList), arrayCopyRoom(roomList),0);
         orTree.traverse(orTree.head, personList.size());
-        orTree.printStack();
+
 
         System.out.println("Nothing...");
     }
@@ -222,7 +223,7 @@ public class Solution {
                 temp.get(i).setPersonTwo(current.getPerson());
             }
         }
-            return temp;
+        return temp;
     }
 
     /**
@@ -254,5 +255,10 @@ public class Solution {
         for(Person p : pList){
             System.out.println(p.getName());
         }
+    }
+
+    public void print(PrintStream outFile)
+    {
+        orTree.printStack(outFile);
     }
 }
