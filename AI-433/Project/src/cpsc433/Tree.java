@@ -1,5 +1,6 @@
 package cpsc433;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -67,14 +68,14 @@ public class Tree {
             solution.pop();
     }
 
-    public void printStack()
+    public void printStack(PrintStream outFile)
     {
         //System.out.println(solution.size());
         for(Node n : finalSolution){
 
             if(n.getRoom()!= null)
-                System.out.println("Name: "+ n.getPerson().getName() + " Room: "+ n.getRoom().getRoomNumber());
+                outFile.println("assign-to("+ n.getPerson().getName() + ", "+ n.getRoom().getRoomNumber()+")");
         }
-        System.out.println(finalSolution.get(finalSolution.size()-2).getTotalGoodnessValue());
+        outFile.println(finalSolution.get(finalSolution.size() - 2).getTotalGoodnessValue());
     }
 }
