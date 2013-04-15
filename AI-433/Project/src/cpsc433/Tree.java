@@ -11,7 +11,6 @@ public class Tree {
     Node head;
     int counting = 0;
     Stack<Node> solution;
-    Calculate genCalcObj = new Calculate();
 
     public Tree ()
     {
@@ -46,7 +45,7 @@ public class Tree {
             if(solution.size() == solutionSize)
                 printStack();
 
-            System.out.println("END Recursion, Stack size: "+ solution.size() +" Needs to be" + solutionSize);
+            //System.out.println("END Recursion, Stack size: "+ solution.size() +" Needs to be" + solutionSize);
             solution.pop();
             return;
         }

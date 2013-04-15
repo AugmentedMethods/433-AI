@@ -22,17 +22,17 @@ public class Solution {
     ArrayList<Rooms> emptyRoomList;
     private Tree orTree;
 
-    ArrayList<Rooms> savedList;
-
     private Calculate generalCalcObj;
+    double startTime;
 
-    public Solution (ArrayList<Person> personList, ArrayList<Rooms> roomList)
+    public Solution (double startTime ,ArrayList<Person> personList, ArrayList<Rooms> roomList)
     {
         this.personList = personList;
         this.roomList = roomList;
         emptyRoomList = new ArrayList<Rooms>();
+        this.startTime = startTime;
         orTree = new Tree();
-        generalCalcObj = new Calculate();
+        generalCalcObj = new Calculate(3000, 200);
     }
 
     public void getSortedData()
@@ -60,7 +60,7 @@ public class Solution {
 //        for(Rooms r:roomList)
 //            System.out.println(r.getRoomNumber());
         buildTree(orTree.head,arrayCopyPerson(-1, personList), arrayCopyRoom(roomList),0);
-        //orTree.traverse(orTree.head, personList.size());
+        orTree.traverse(orTree.head, personList.size());
     }
 
     /**
@@ -79,16 +79,21 @@ public class Solution {
         Node temp =null;
         int checkVal;
 
+        if(((System.nanoTime()-startTime)/1000000000) > 25)
+            return;
+
         if(current.getPerson() != null && 0 < partialPersonList.size())
         {
             partialPersonList = arrayCopyPerson(nodeNum, partialPersonList);
 
             current = pickRoom(current, partialRoomList);
+            checkVal = generalCalcObj.update(current);
+            if(checkVal != 1)
+                return;
             partialRoomList = setRoomData(current,partialRoomList);
             partialRoomList =roomRemove(current, partialRoomList);
 
-            System.out.println("Name: " + current.getPerson().getName() + ", Room:" + current.getRoom().getRoomNumber() +"\n");
-            savedList = partialRoomList;
+
         }
         if(partialPersonList.size() == 0)
         {
@@ -166,8 +171,11 @@ public class Solution {
         for(Rooms r : rList)  {
             //System.out.println(r.getPersonOne());
             check = r.getRoomNumber().equals(current.getRoom().getRoomNumber());
-            if((check && (current.getRoom().getPersonOne() == null || current.getRoom().getPersonTwo() == null)) || !check)
+            if(!check)
                 tempList.add(r.copyRoom(r));
+            else if(skipConditions(r,current)==1)
+                tempList.add(r.copyRoom(r));
+
         }
 
         return tempList;
@@ -182,18 +190,12 @@ public class Solution {
     private Node pickRoom(Node current,ArrayList<Rooms> partialRoomList)
     {
         Rooms temp;
-//        System.out.println(partialRoomList.get(0).getPersonOne());
-//        if(partialRoomList.get(0).getPersonOne() != null)
-//            System.out.println(partialRoomList.get(0).getPersonOne().getName());
-        System.out.println(partialRoomList.size());
         for(Rooms r : partialRoomList){
 
             if(r.getPersonOne() == null) {
                 temp = r.copyRoom(r);
                 temp.setPersonOne(current.getPerson());
-
                 current.setRoom(temp);
-
                 return current;
             }
             else if(r.getPersonTwo() == null) {
@@ -224,15 +226,6 @@ public class Solution {
             return temp;
     }
 
-
-
-
-
-
-
-
-
-
     /**
      * This method controls whether a room can still be used or not.
      * Please check that I have not missed any possible reason why a room would be full
@@ -242,23 +235,20 @@ public class Solution {
      * @return - 0 for the room can't be used anymore, 1 for still usable, -1 for failed the hard constraint
      * The -1 has not yet be used (needs to be implemnted)
      */
-    private int skipConditions(Rooms r)
+    private int skipConditions(Rooms r, Node current)
     {
-        if(r.getPersonOne() != null && r.getPersonTwo() != null && (r.getPersonOne().needsSeperateRoom() || r.getPersonTwo().needsSeperateRoom()))
-            return -1;
-        if(r.getPersonOne() != null && r.getPersonOne().needsSeperateRoom())
+        boolean sameRoom = r.getRoomNumber().equals(current.getRoom().getRoomNumber());
+
+        //System.out.println(r.getPersonOne() + " + " + r.getPersonTwo());
+
+        if(r.isSmall())
             return 0;
-        if(r.getPersonTwo() != null && r.getPersonTwo().needsSeperateRoom())
+        if(current.getPerson().needsSeperateRoom())
             return 0;
-        if(r.getPersonOne() != null && r.getPersonTwo() != null)
-            return 0;
-        if(r.isSmall()&& (r.getPersonTwo() != null || r.getPersonOne() != null))
-            return 0;
-        if(r.getPersonOne() == null || r.getPersonTwo() == null)
+        if(r.getPersonOne() == null || r.getPersonTwo()== null)
             return 1;
 
         return 0;
-
     }
     private void printList(ArrayList<Person> pList)
     {

@@ -35,7 +35,9 @@ public class SisyphusI {
             System.out.println("Synopsis: SisyphusI <env-file> [<solution-file>|<time-in-ms>]");
         }
 
-        Solution testSol = new Solution(personList, roomList);
+        System.out.println();
+        double startTime = System.nanoTime();
+        Solution testSol = new Solution(startTime ,personList, roomList);
         testSol.beginSearch();
 
         final String out = fromFile+".out";

@@ -5,19 +5,15 @@ package cpsc433;
  */
 public class Calculate {
 
-    /**
-     *
-     * ---------------------------------------
-     * Everything commented out fails
-     * ---------------------------------------
-     *
-     * Main method to call to get the goodness value
-     * return 1 for success
-     * return 0 for bad node
-     * return -1 for bad tree(total goodness to high
-     * -2 for failure
-     * @param node
-     */
+   private int totalTime;
+   private int individualTime;
+
+    public Calculate (int totalTime, int individualTime)
+    {
+        this.totalTime = totalTime;
+        this.individualTime = individualTime;
+    }
+
     public int update(Node node)
     {
         if(node == null ||node.getPerson()== null)
